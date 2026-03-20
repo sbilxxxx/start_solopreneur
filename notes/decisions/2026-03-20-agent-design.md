@@ -182,6 +182,41 @@ content-reviewer で UI/UX評価（必要な場合）
     seo-checker.md         SEOチェッカー
 
 scripts/
-  tweet.mjs                単発投稿スクリプト
-  schedule-tweet.mjs       スケジュール自動投稿スクリプト
+  tweet.mjs                単発投稿スクリプト（手動）
+  schedule-tweet.mjs       スケジュール自動投稿（Task Scheduler 月8時/水12時/金19時）
+  run-schedule-tweet.bat   Task Scheduler から呼ぶラッパー
+  monitor.mjs              プロジェクト自動監視（Task Scheduler 毎日9時）
+  run-monitor.bat          Task Scheduler から呼ぶラッパー
+
+logs/
+  schedule-tweet.log       X投稿の実行ログ
+  monitor.log              監視スクリプトの実行ログ
 ```
+
+---
+
+## 監視システム
+
+### 自動監視（monitor.mjs）
+
+毎日9時に自動実行。問題を検出すると GitHub Issues に `[Monitor]` ラベルで登録する。
+
+| チェック項目 | 検出条件 |
+|------------|---------|
+| X投稿の実行漏れ | 昨日が月水金なのにアーカイブに記録なし |
+| ストック残数不足 | 未投稿ストックが2本以下 |
+| ファイル参照破損 | 主要ファイルが存在しないファイルを参照 |
+| 来月SNSファイル未作成 | 月末5日前に来月ファイルが未作成 |
+
+### インタラクティブ監視（manager-agent）
+
+Claude Code セッション起動時に手動で「状況を整理して」と指示して実行。
+GitHub Issues のオープンアラートを確認してアクションプランに反映する。
+
+### 役割分担
+
+| 役割 | 担当 | 実行タイミング |
+|------|------|------------|
+| 構造的問題の自動検出 + Issue登録 | monitor.mjs | 毎日9時（無人） |
+| 状況把握・優先順位・委任指示 | manager-agent | セッション開始時（対話） |
+| Issue解決後のクローズ | manager-agent / ユーザー | 問題解決時 |

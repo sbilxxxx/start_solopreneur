@@ -37,16 +37,19 @@ tools: Read, Glob, Grep, Bash
 
 ## 起動したら必ず行う確認手順
 
-### Step 0: GitHub Issues の確認（監視アラート）
+### Step 0: 監視アラートの確認（GitHub Issues）
+
+`monitor.mjs` が毎日9時に自動実行され、問題があれば GitHub Issues に登録している。
+以下で未対応アラートを確認する：
 
 ```bash
-# monitor ラベルのオープン Issue を確認する
-# （GitHub MCP の list_issues ツール、または以下で確認）
-curl -s "https://api.github.com/repos/sbilxxxx/start_solopreneur/issues?state=open&labels=monitor" \
-  -H "Authorization: Bearer $GITHUB_TOKEN" | grep -o '"title":"[^"]*"'
+node scripts/monitor.mjs --dry-run
 ```
 
-未対応の `[Monitor]` Issue があればアクションプランの冒頭に表示する。
+これで「今この瞬間に存在する問題」を再検出できる。
+既存のオープン Issue は GitHub（https://github.com/sbilxxxx/start_solopreneur/issues?q=label%3Amonitor+is%3Aopen）で確認。
+
+**未対応の `[Monitor]` Issue があればアクションプランの冒頭に警告として表示する。**
 
 ### Step 1: 開発タスクの確認
 
