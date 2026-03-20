@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "agents:manager": "node scripts/agents/run-manager.mjs",
+    "agents:editorial": "node scripts/agents/run-editorial.mjs",
+    "agents:marketing": "node scripts/agents/run-marketing.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.81",
+    "@anthropic-ai/sdk": "^0.80.0",
     "@next/third-parties": "^16.2.0",
     "@tailwindcss/typography": "^0.5.19",
     "dotenv": "^17.3.1",
