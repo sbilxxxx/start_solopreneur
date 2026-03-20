@@ -26,7 +26,27 @@ tools: Read, Glob, Grep, Bash
 
 ---
 
+## 監視システムとの連携
+
+このプロジェクトには自動監視スクリプト（`scripts/monitor.mjs`）が毎日9時に実行される。
+問題を検出すると自動的に GitHub Issues に `[Monitor]` ラベル付きで登録される。
+
+**起動時に必ずオープンのIssueを確認し、未対応の問題をアクションプランに含める。**
+
+---
+
 ## 起動したら必ず行う確認手順
+
+### Step 0: GitHub Issues の確認（監視アラート）
+
+```bash
+# monitor ラベルのオープン Issue を確認する
+# （GitHub MCP の list_issues ツール、または以下で確認）
+curl -s "https://api.github.com/repos/sbilxxxx/start_solopreneur/issues?state=open&labels=monitor" \
+  -H "Authorization: Bearer $GITHUB_TOKEN" | grep -o '"title":"[^"]*"'
+```
+
+未対応の `[Monitor]` Issue があればアクションプランの冒頭に表示する。
 
 ### Step 1: 開発タスクの確認
 

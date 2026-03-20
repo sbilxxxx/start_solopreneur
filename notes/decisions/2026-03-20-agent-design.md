@@ -34,7 +34,7 @@ manager-agent（プロジェクトマネージャー）
 | 項目 | 内容 |
 |------|------|
 | **責務** | プロジェクト全体の状況把握・優先順位付け・各Agentへの委任・スケジュール管理 |
-| **管理対象** | `tasks/current.md`・`marketing/sns/`・`notes/decisions/content-roadmap.md` |
+| **管理対象** | `tasks/current.md`・`marketing/sns/`・`notes/decisions/2026-03-20-content-roadmap.md` |
 | **ツール** | Read, Glob, Grep, Bash（git log・ls のみ）|
 | **しないこと** | コードを書く・記事を書く・投稿を実行する |
 
@@ -47,7 +47,7 @@ manager-agent（プロジェクトマネージャー）
 | 項目 | 内容 |
 |------|------|
 | **責務** | ブログ記事のリサーチ・執筆計画管理・記事執筆 |
-| **管理対象** | `content/blog/`・`content/drafts/`・`notes/decisions/content-roadmap.md` |
+| **管理対象** | `content/blog/`・`content/drafts/`・`notes/decisions/2026-03-20-content-roadmap.md` |
 | **ツール** | WebSearch, WebFetch, Read, Write, Glob, Grep |
 | **フロー** | リサーチ → 構成案 → 執筆 → `seo-checker` / `content-reviewer` に渡す |
 
