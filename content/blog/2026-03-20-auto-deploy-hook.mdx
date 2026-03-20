@@ -1,0 +1,109 @@
+---
+title: コードを変更したら自動でデプロイされる仕組みをClaude Codeで作った
+titleEn: Building an Auto-Deploy Pipeline with Claude Code Hooks
+date: "2026-03-20"
+category: engineering
+tags: [Claude Code, Hooks, 自動化, Vercel]
+summary: Claude CodeのStopフックを使い、返答が終わるたびに自動でgit push→Vercel本番反映される仕組みの作り方と仕組みの解説。
+summaryEn: How to build an automatic deployment pipeline using Claude Code's Stop hook — from code change to production in seconds.
+---
+
+このサイトは、Claude Codeが返答を終えるたびに自動でGitHubにpushされ、Vercelに本番デプロイされる。
+
+手動でやることは何もない。Claude Codeに「このページを修正して」と言って、返答が来たら数分後には本番に反映されている。
+
+この仕組みをどう作ったか、なぜこれが重要なのかを整理する。
+
+## この記事でわかること
+
+- Claude CodeのHooksとは何か
+- Stopフックを使った自動デプロイの仕組み
+- 設定ファイルの書き方と注意点
+
+---
+
+## Hooksとは何か
+
+Claude Codeには**Hooks（フック）**という仕組みがある。
+
+特定のイベントが起きたときに、自動でシェルコマンドを実行できる。Pythonの`@decorator`に近い発想だ。
+
+主なイベントはこれだ：
+
+| イベント | タイミング |
+|---------|-----------|
+| `PreToolUse` | ツール実行前 |
+| `PostToolUse` | ツール実行後 |
+| `Stop` | Claude Codeが返答を終えたとき |
+
+今回使ったのは**Stopフック**。Claude Codeが返答し終えるたびに発火する。
+
+## 自動デプロイの全体像
+
+```
+Claude Codeがコードを変更
+        ↓
+Claude Codeが返答を終える（Stop）
+        ↓
+Stopフックが自動実行
+        ↓
+git status で変更を確認
+        ↓（変更があれば）
+git add -A → git commit → git push
+        ↓
+Vercelが自動検知 → 本番デプロイ
+```
+
+## 設定ファイルの書き方
+
+`.claude/settings.local.json` に以下を書く：
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"/path/to/project\" && [ -n \"$(git status --porcelain)\" ] && git add -A && git commit -m \"auto: claude code $(date '+%Y-%m-%d %H:%M')\" && git push origin main || true",
+            "timeout": 60,
+            "statusMessage": "変更を自動デプロイ中..."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+ポイントは2つ：
+
+1. **`[ -n "$(git status --porcelain)" ]`** — 変更がある場合のみ実行する。変更がなければ何もしない。
+2. **`|| true`** — エラーが出ても処理を止めない。
+
+## なぜ `settings.local.json` に書くか
+
+Claude Codeの設定ファイルには3種類ある：
+
+| ファイル | スコープ | git管理 |
+|---------|---------|---------|
+| `~/.claude/settings.json` | 全プロジェクト共通 | なし |
+| `.claude/settings.json` | このプロジェクトのみ | する |
+| `.claude/settings.local.json` | このプロジェクトのみ | **しない** |
+
+自動pushのコマンドにはプロジェクトの絶対パスが含まれる。これは自分の環境固有の情報なので、gitで共有すべきでない。だから `settings.local.json` に書く。
+
+## 注意点：セッションをまたぐと有効になる
+
+Hooksは設定ファイルをセッション開始時に読み込む。セッション中に設定を変更しても、**次のセッションから有効**になる。
+
+初回設定後は一度Claude Codeを再起動する必要がある。
+
+## まとめ
+
+- Claude CodeのStopフックは「返答が終わるたびに実行されるスクリプト」
+- これを使ってgit push → Vercel自動デプロイの仕組みを作った
+- 設定は`.claude/settings.local.json`に書き、gitには含めない
+
+この仕組みができてから、開発のリズムが変わった。「動いた、デプロイしよう」という手間が消え、会話に集中できる。
