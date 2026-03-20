@@ -1,6 +1,7 @@
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
+import remarkGfm from "remark-gfm";
 
 const categoryLabel: Record<string, string> = {
   engineering: "エンジニアリング",
@@ -69,7 +70,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           prose-pre:bg-zinc-950 prose-pre:text-zinc-100
           prose-strong:text-zinc-800 dark:prose-strong:text-zinc-200
           prose-a:text-blue-600 dark:prose-a:text-blue-400">
-          <MDXRemote source={post.content} />
+          <MDXRemote
+            source={post.content}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          />
         </div>
 
         {/* Footer nav */}
