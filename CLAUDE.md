@@ -12,6 +12,7 @@ AIエージェントが各部門を担う「一人会社」。
 AIを使いこなしながら実践・発信するウェブサイト。
 
 - **サイト:** https://start-solopreneur.vercel.app
+- **X:** https://x.com/bensolopreneur（Ben｜Start Solopreneur）
 - **リポジトリ:** github.com/sbilxxxx/start_solopreneur
 - **詳細戦略:** notes/decisions/2026-03-20-project-strategy.md
 
@@ -64,7 +65,7 @@ AIを使いこなしながら実践・発信するウェブサイト。
 
 ## 現在の開発フェーズ
 
-**Phase 1（完了間近）:** 基礎操作 + CLAUDE.md + Hooks
-**Phase 2（次）:** 会社組織化 + Skills + MCP
+**Phase 1（完了）:** 基礎操作 + CLAUDE.md + Hooks
+**Phase 2（進行中）:** 会社組織化 + Skills + MCP
 
 フェーズ定義: `notes/decisions/2026-03-20-roadmap-redesign.md`

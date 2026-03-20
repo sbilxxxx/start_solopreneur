@@ -9,7 +9,7 @@
 | 項目 | 内容 |
 |------|------|
 | 表示名 | `Ben｜Start Solopreneur` |
-| ユーザー名 | `@bensolopreneur`（要確認・取得済みか） |
+| ユーザー名 | `@bensolopreneur` ✅ 取得済み（2026-03-20） |
 | Website | https://start-solopreneur.vercel.app |
 | 場所 | 任意（日本、など） |
 
