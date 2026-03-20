@@ -1,0 +1,93 @@
+---
+title: CLAUDE.mdの設計思想——「毎回説明する」をなくす方法
+titleEn: The Design Philosophy of CLAUDE.md — Eliminating Repeated Explanations
+date: "2026-03-20"
+category: engineering
+tags: [Claude Code, CLAUDE.md, 入門]
+summary: Claude Codeを使い始めたとき、毎回同じことを説明していた。CLAUDE.mdはその問題を解決するファイルだ。
+summaryEn: When I started using Claude Code, I was explaining the same things over and over. CLAUDE.md solves that.
+---
+
+Claude Codeを使い始めてすぐ気づいたのは、「毎回同じことを説明している」ということだった。
+
+「このプロジェクトはNext.js 15のApp Routerを使っています」「パッケージマネージャーはnpmです」「TypeScriptで書いてください」——新しいセッションを始めるたびに、これを言わないといけない。
+
+これを解決するのが **CLAUDE.md** だ。
+
+---
+
+## CLAUDE.mdとは
+
+プロジェクトのルートに置いておくと、Claude Codeが毎回自動で読み込むルールファイルだ。
+
+一度書いておけば、新しいセッションを始めるたびに説明し直さなくていい。「このプロジェクトのルール」がClaude Codeに最初から入っている状態で会話できる。
+
+```
+プロジェクト/
+├── CLAUDE.md   ← ここに書く
+├── src/
+└── ...
+```
+
+---
+
+## 何を書くか
+
+書く内容は大きく2種類ある。
+
+**技術的なルール（間違いを防ぐため）**
+
+```markdown
+## 開発ルール
+- パッケージマネージャー: npm（yarn・pnpmは使わない）
+- フレームワーク: Next.js 15 App Router
+- スタイル: Tailwind CSS（インラインclassNameで記述）
+- APIキーをコードに直書きしない
+```
+
+これがないと、Claude Codeがyarnでパッケージをインストールしようとしたり、古い書き方でコードを書いたりすることがある。
+
+**文脈的なルール（毎回説明をなくすため）**
+
+```markdown
+## このプロジェクトとは
+AIを使いながらソロアントレを実践・発信するウェブサイト。
+
+## ディレクトリの役割
+- src/: 開発部
+- content/: 編集部（ブログ記事）
+- marketing/: 広報部
+```
+
+「このサイトは何のためのサイトか」を書いておくと、Claude Codeが文脈を理解した上で動いてくれる。
+
+---
+
+## 部門別CLAUDE.mdという発想
+
+このプロジェクトでは、ルートのCLAUDE.mdだけでなく、各ディレクトリにもCLAUDE.mdを置いている。
+
+```
+CLAUDE.md              ← 全社方針
+content/CLAUDE.md      ← 編集部のルール
+marketing/CLAUDE.md    ← 広報部のルール
+finance/CLAUDE.md      ← 財務部のルール
+```
+
+`content/CLAUDE.md` には「一人称は自分」「AI感のある文体は避ける」「読者は初学者を想定」といったことを書いている。記事を書いてもらうとき、毎回これを伝えなくてもいい。
+
+---
+
+## CLAUDE.mdを育てる
+
+最初から完璧なCLAUDE.mdを書こうとしなくていいと思っている。
+
+使っていて「あ、これは毎回言ってるな」と気づいたときに追記する。気づいたら書く、の繰り返しで育てていくのが自然な運用方法だ。
+
+今のこのプロジェクトのCLAUDE.mdは、1週間で3回くらい更新した。
+
+---
+
+地味な機能に見えるけど、使い続けると「これなしでClaude Codeを使う気がしない」という感覚になる。
+
+毎回説明する手間がなくなる分、「何を作るか」を考えることに集中できる。

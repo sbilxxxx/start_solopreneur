@@ -1,4 +1,6 @@
 import { getAllPosts } from "@/lib/posts";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 const categoryLabel: Record<string, string> = {
   engineering: "エンジニアリング",
@@ -14,103 +16,56 @@ const categoryColor: Record<string, string> = {
   marketing: "bg-purple-50 text-purple-700 border-purple-200",
 };
 
-const values = [
-  {
-    title: "AIを「使う」から「使いこなす」へ",
-    desc: "ChatGPTで質問するレベルから、エージェントに仕事を任せるレベルまで。Claude Codeの実践的な活用法を記録する。",
-  },
-  {
-    title: "エンジニアリングだけで終わらない",
-    desc: "技術を作るだけでなく、それをビジネスに繋げる。経営・財務・マーケも横断して、一人で会社を動かす方法を探る。",
-  },
-  {
-    title: "完成品より「やってみた記録」",
-    desc: "うまくいったことだけでなく、失敗・試行錯誤・気づきをそのまま書く。再現性のある学びにすることを目指す。",
-  },
-];
-
-const topics = [
-  {
-    nameJa: "エンジニアリング",
-    nameEn: "Engineering",
-    desc: "Claude Code・AI開発・Webの実装記録",
-    color: "bg-blue-50 border-blue-200 text-blue-800",
-  },
-  {
-    nameJa: "経営",
-    nameEn: "Business",
-    desc: "ソロアントレとしての意思決定・組織設計",
-    color: "bg-emerald-50 border-emerald-200 text-emerald-800",
-  },
-  {
-    nameJa: "財務",
-    nameEn: "Finance",
-    desc: "CFO思考・コスト管理・収益モデルの試算",
-    color: "bg-amber-50 border-amber-200 text-amber-800",
-  },
-  {
-    nameJa: "マーケ",
-    nameEn: "Marketing",
-    desc: "コンテンツ戦略・SEO・グロースの実験",
-    color: "bg-purple-50 border-purple-200 text-purple-800",
-  },
-];
-
 export default function Home() {
   const posts = getAllPosts().slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950">
-      {/* Nav */}
-      <nav className="border-b border-zinc-100 dark:border-zinc-800">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="font-semibold text-zinc-900 dark:text-zinc-50">Start Solopreneur</span>
-          <div className="flex gap-6 text-sm text-zinc-500 dark:text-zinc-400">
-            <a href="/about" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">About</a>
-            <a href="/blog" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Blog</a>
-            <a href="/projects" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Projects</a>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
       <main className="max-w-3xl mx-auto px-6">
 
         {/* Hero */}
         <section className="py-20 border-b border-zinc-100 dark:border-zinc-800">
-          <p className="text-xs text-zinc-400 uppercase tracking-widest mb-4">Engineer × Solo Entrepreneur</p>
+          <p className="text-xs text-zinc-400 uppercase tracking-widest mb-6">Claude Code × Solo Entrepreneur</p>
           <h1 className="text-4xl font-bold text-zinc-900 dark:text-zinc-50 leading-tight mb-6">
-            AIで動かす、<br />一人会社の作り方
+            Claude Codeで、<br />一人で会社を動かせるか？
           </h1>
-          <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl mb-3">
-            AI開発エンジニアがソロアントレプレナーとして、
-            技術・経営・財務・マーケを一人で回す方法を実験・記録するサイトです。
+          <p className="text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl mb-8">
+            AIを使いながらゼロからソロアントレを始める実験を、失敗も含めてすべて記録しています。
+            コードをほぼ書かず、会話だけでサイトを作った話から始まります。
           </p>
-          <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">
-            A live journal of an AI engineer navigating solo entrepreneurship —
-            building systems where AI handles the work, and humans make the decisions.
-          </p>
+          <a
+            href="/blog"
+            className="inline-block bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+          >
+            記事を読む →
+          </a>
         </section>
 
-        {/* Value propositions */}
-        <section className="py-14 border-b border-zinc-100 dark:border-zinc-800">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-8">このサイトで学べること</h2>
-          <div className="space-y-6">
-            {values.map((v) => (
-              <div key={v.title} className="flex gap-4">
-                <div className="w-1 shrink-0 bg-zinc-200 dark:bg-zinc-700 rounded-full" />
-                <div>
-                  <div className="font-semibold text-sm text-zinc-900 dark:text-zinc-100 mb-1">{v.title}</div>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{v.desc}</p>
-                </div>
-              </div>
-            ))}
+        {/* About strip */}
+        <section className="py-12 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-6">
+            <div className="w-14 h-14 rounded-full bg-zinc-200 dark:bg-zinc-700 shrink-0 flex items-center justify-center text-zinc-500 dark:text-zinc-300 font-bold text-xl">
+              B
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-2">Ben について</p>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">
+                大学でAIを学び、会社勤めをしながら「AIを本当に使いこなせば、一人でも会社を動かせるはず」と思い立ち、ソロアントレとして始動しました。
+                このサイトはその実験の全記録です。
+              </p>
+              <a href="/about" className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors">
+                もっと読む →
+              </a>
+            </div>
           </div>
         </section>
 
         {/* Latest posts */}
         <section className="py-14 border-b border-zinc-100 dark:border-zinc-800">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Latest Posts</h2>
+            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">最新記事</h2>
             <a href="/blog" className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors">すべて見る →</a>
           </div>
           {posts.length === 0 ? (
@@ -136,35 +91,48 @@ export default function Home() {
         </section>
 
         {/* Topics */}
-        <section className="py-14">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-8">Topics</h2>
+        <section className="py-14 border-b border-zinc-100 dark:border-zinc-800">
+          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-8">テーマ</h2>
           <div className="grid grid-cols-2 gap-3">
-            {topics.map((t) => (
+            {[
+              { ja: "Claude Code入門", en: "engineering", desc: "初心者が実際に使った記録。失敗も全部。", color: "bg-blue-50 border-blue-200 text-blue-800" },
+              { ja: "ソロアントレ実録", en: "business", desc: "数値・進捗・意思決定の記録。月次レポートも。", color: "bg-emerald-50 border-emerald-200 text-emerald-800" },
+              { ja: "一人会社の作り方", en: "finance", desc: "ツール・仕組み・コスト設計の記録。", color: "bg-amber-50 border-amber-200 text-amber-800" },
+              { ja: "マーケ実験", en: "marketing", desc: "X運用・コンテンツ戦略の試行錯誤。", color: "bg-purple-50 border-purple-200 text-purple-800" },
+            ].map((t) => (
               <a
-                key={t.nameEn}
-                href={`/blog?category=${t.nameEn.toLowerCase()}`}
+                key={t.en}
+                href={`/blog?category=${t.en}`}
                 className={`border rounded-xl p-4 hover:shadow-sm transition-shadow ${t.color}`}
               >
-                <div className="font-semibold text-sm mb-0.5">{t.nameJa}</div>
-                <div className="text-xs opacity-70 mb-2">{t.nameEn}</div>
+                <div className="font-semibold text-sm mb-1">{t.ja}</div>
                 <div className="text-xs opacity-60 leading-relaxed">{t.desc}</div>
               </a>
             ))}
           </div>
         </section>
 
+        {/* X CTA */}
+        <section className="py-14">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+            記事のあいだの気づきや失敗は、Xにリアルタイムで投稿しています。
+          </p>
+          <a
+            href="https://x.com/bensolopreneur"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 px-4 py-2 rounded-lg hover:border-zinc-400 transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.258 5.632 5.906-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            @bensolopreneur をフォロー
+          </a>
+        </section>
+
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-100 dark:border-zinc-800">
-        <div className="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-zinc-400">
-          <span>© 2026 Start Solopreneur</span>
-          <div className="flex gap-4">
-            <a href="/en" className="hover:text-zinc-600 transition-colors">English</a>
-            <a href="/" className="hover:text-zinc-600 transition-colors">日本語</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

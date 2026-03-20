@@ -1,62 +1,94 @@
 ---
-title: コードを変更したら自動でデプロイされる仕組みをClaude Codeで作った
-titleEn: Building an Auto-Deploy Pipeline with Claude Code Hooks
+title: 「デプロイするの忘れた」が二度とないように、Claude CodeのHooksで自動化した
+titleEn: Never Forget to Deploy Again — Auto-Deploy with Claude Code Hooks
 date: "2026-03-20"
 category: engineering
 tags: [Claude Code, Hooks, 自動化, Vercel]
-summary: Claude CodeのStopフックを使い、返答が終わるたびに自動でgit push→Vercel本番反映される仕組みの作り方と仕組みの解説。
-summaryEn: How to build an automatic deployment pipeline using Claude Code's Stop hook — from code change to production in seconds.
+summary: コードを変更するたびに手動でgit pushしていたのを、Claude CodeのHooksで全自動にした。仕組みと設定方法を、用語の説明つきで書く。
+summaryEn: I automated the git push flow using Claude Code's Stop hook. Here's how it works, with plain-language explanations.
 ---
 
-このサイトは、Claude Codeが返答を終えるたびに自動でGitHubにpushされ、Vercelに本番デプロイされる。
+コードの変更が本番に反映されるまで、何ステップかかるか数えたことがある。
 
-手動でやることは何もない。Claude Codeに「このページを修正して」と言って、返答が来たら数分後には本番に反映されている。
+`git add` して、`git commit` して、`git push` して、サイトが更新されているか確認して——この手順を、Claude Codeが何か変えるたびに繰り返していた。
 
-この仕組みをどう作ったか、なぜこれが重要なのかを整理する。
+面倒というより、忘れる。「さっきの変更、pushしたっけ？」が頻発し始めた。
 
-## この記事でわかること
-
-- Claude CodeのHooksとは何か
-- Stopフックを使った自動デプロイの仕組み
-- 設定ファイルの書き方と注意点
+だから自動化した。
 
 ---
 
-## Hooksとは何か
+## まず、このサイトの構成を説明する
 
-Claude Codeには**Hooks（フック）**という仕組みがある。
+少しだけ前提の話をする。このサイトがどうやって動いているかを知らないと、「何を自動化したか」がピンとこないと思うので。
 
-特定のイベントが起きたときに、自動でシェルコマンドを実行できる。Pythonの`@decorator`に近い発想だ。
+このサイトは **Vercel**（バーセル）というサービスで動いている。Vercelはウェブサイトを公開するためのホスティングサービスで、無料プランでも普通に使える。
 
-主なイベントはこれだ：
+コードは **GitHub**（ギットハブ）というサービスで管理している。GitHubはコードの保存場所みたいなもので、「いつ・誰が・何を変えたか」を記録しながらコードを管理できる。
 
-| イベント | タイミング |
-|---------|-----------|
-| `PreToolUse` | ツール実行前 |
-| `PostToolUse` | ツール実行後 |
+この2つは連携していて、**GitHubにコードを送る（pushする）と、Vercelが自動的に検知してサイトを更新してくれる。**
+
+図にするとこうなる：
+
+```
+自分のPC（Claude Codeで編集）
+        ↓ push（送る）
+    GitHub（コード保存場所）
+        ↓ 自動検知
+    Vercel（サイト公開場所）
+        ↓
+  start-solopreneur.vercel.app が更新される
+```
+
+つまり、「GitHubにpushする」という1ステップさえ踏めば、あとは自動でサイトが更新される。
+
+問題は、その「pushする」という作業を毎回手動でやっていたこと。
+
+---
+
+## Hooksとは
+
+Claude Codeには**Hooks（フック）**という仕組みがある。「特定のことが起きたときに、自動でコマンドを実行する」設定だ。
+
+フックという言葉は「引っかける」という意味で、「この出来事に処理を引っかける」というイメージ。
+
+設定できるタイミングの例：
+
+| タイミング | 何が起きたとき |
+|-----------|-------------|
+| `PreToolUse` | Claude Codeがファイルを読み書きする直前 |
+| `PostToolUse` | Claude Codeがファイルを読み書きした直後 |
 | `Stop` | Claude Codeが返答を終えたとき |
 
-今回使ったのは**Stopフック**。Claude Codeが返答し終えるたびに発火する。
+今回使ったのは `Stop`。Claude Codeが返答し終えるたびに自動で何かを実行できる。
 
-## 自動デプロイの全体像
+---
+
+## 仕組みの全体像
+
+これで「Stopフックにpushを引っかける」と、こういう流れになる：
 
 ```
 Claude Codeがコードを変更
         ↓
-Claude Codeが返答を終える（Stop）
+Claude Codeが返答を終える
         ↓
-Stopフックが自動実行
+Stopフックが自動で起動
         ↓
-git status で変更を確認
-        ↓（変更があれば）
-git add -A → git commit → git push
+変更があるか確認
+        ↓（あれば）
+GitHubに自動でpush
         ↓
-Vercelが自動検知 → 本番デプロイ
+Vercelが検知 → サイトが更新される
 ```
+
+返答が来てから2〜3分後には、本番のサイトに反映されている。
+
+---
 
 ## 設定ファイルの書き方
 
-`.claude/settings.local.json` に以下を書く：
+`.claude/settings.local.json` というファイルに以下を書く。このファイルはClaude Codeの設定ファイルで、プロジェクトフォルダの中にある。
 
 ```json
 {
@@ -67,8 +99,7 @@ Vercelが自動検知 → 本番デプロイ
           {
             "type": "command",
             "command": "cd \"/path/to/project\" && [ -n \"$(git status --porcelain)\" ] && git add -A && git commit -m \"auto: claude code $(date '+%Y-%m-%d %H:%M')\" && git push origin main || true",
-            "timeout": 60,
-            "statusMessage": "変更を自動デプロイ中..."
+            "timeout": 60
           }
         ]
       }
@@ -77,33 +108,46 @@ Vercelが自動検知 → 本番デプロイ
 }
 ```
 
-ポイントは2つ：
+`/path/to/project` の部分には、自分のプロジェクトのフォルダのパスを入れる。
 
-1. **`[ -n "$(git status --porcelain)" ]`** — 変更がある場合のみ実行する。変更がなければ何もしない。
-2. **`|| true`** — エラーが出ても処理を止めない。
+細かい部分を補足すると：
+
+**`git status --porcelain`** — 「変更があるか確認する」コマンド。変更がないのにpushしようとすると無駄なので、変更があるときだけ処理する。
+
+**`git add -A`** — 変更したファイルを「送る準備」にまとめる。
+
+**`git commit`** — 「この変更をひとまとまりとして記録する」操作。日時つきのメモが自動でつく。
+
+**`git push origin main`** — GitHubに送る。
+
+**`|| true`** — ネットワークが切れているなどでpushが失敗しても、Claude Codeの動作を止めないようにするおまじない。
+
+---
 
 ## なぜ `settings.local.json` に書くか
 
-Claude Codeの設定ファイルには3種類ある：
+Claude Codeの設定ファイルは3種類ある：
 
-| ファイル | スコープ | git管理 |
-|---------|---------|---------|
-| `~/.claude/settings.json` | 全プロジェクト共通 | なし |
+| ファイル | 範囲 | GitHubで共有するか |
+|---------|-----|-----------------|
+| `~/.claude/settings.json` | 全プロジェクト共通 | しない |
 | `.claude/settings.json` | このプロジェクトのみ | する |
 | `.claude/settings.local.json` | このプロジェクトのみ | **しない** |
 
-自動pushのコマンドにはプロジェクトの絶対パスが含まれる。これは自分の環境固有の情報なので、gitで共有すべきでない。だから `settings.local.json` に書く。
+自動pushのコマンドには自分のPCのフォルダパスが含まれる。これは自分の環境に固有の情報なので、GitHubには含めない。だから `settings.local.json` を選ぶ。
 
-## 注意点：セッションをまたぐと有効になる
+---
 
-Hooksは設定ファイルをセッション開始時に読み込む。セッション中に設定を変更しても、**次のセッションから有効**になる。
+## ひとつだけ注意
 
-初回設定後は一度Claude Codeを再起動する必要がある。
+Hooksの設定はClaude Codeを**起動したとき**に読み込まれる。
 
-## まとめ
+起動したあとに設定を変更しても、**次に起動したときから有効**になる。「設定したのに動かない」はほぼこのパターンなので、設定したら一度Claude Codeを再起動する。
 
-- Claude CodeのStopフックは「返答が終わるたびに実行されるスクリプト」
-- これを使ってgit push → Vercel自動デプロイの仕組みを作った
-- 設定は`.claude/settings.local.json`に書き、gitには含めない
+---
 
-この仕組みができてから、開発のリズムが変わった。「動いた、デプロイしよう」という手間が消え、会話に集中できる。
+この仕組みができてから、開発の感覚が変わった。
+
+変更して確認して、次の指示を出す——それだけに集中できる。「pushしたっけ」を考えなくなった分、「次は何を作るか」を考える時間が増えた。
+
+些細な自動化だけど、集中の妨げを一つ消せた感覚がある。
