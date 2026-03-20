@@ -56,19 +56,18 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【D】開発（優先順）
 
-- [ ] **Anthropic SDK 導入**（src/lib/anthropic.ts を新規作成）
-- [ ] **記事自動要約**（/api/summarize を新規作成）
-  - Anthropic SDK 導入後に実装
-- [ ] **サイト内チャット機能**（/api/chat + ChatWidget を新規作成）
-  - 要約API実装後に実装
-- [ ] **RAG**（ブログ記事のナレッジベース化 + ベクトル検索）
+- [x] **Anthropic SDK 導入**（src/lib/anthropic.ts）
+- [x] **記事自動要約**（/api/summarize）
+- [x] **サイト内チャット機能**（/api/chat + ChatWidget）
+- [x] **RAG**（src/lib/rag.ts — Claude Haikuで関連記事選択、チャットに自動注入）
 
 ---
 
 ### 【E】Claude Code 拡張機能（Phase 3 持越し）
 
-- [ ] **Subagents 実践**
-  - `editorial-agent` × `marketing-agent` のパイプラインを動かす
+- [x] **Subagents 実践**
+  - scripts/agents/ に run-manager / run-editorial / run-marketing 実装済み
+  - `npm run agents:editorial "トピック"` で editorial→seo→reviewer パイプライン動作
 - [ ] **MCP 実践**（GitHub MCP セットアップ後）
   - Issue 作成・PR マージを Claude Code から操作してみる
 
