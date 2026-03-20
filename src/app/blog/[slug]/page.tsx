@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import type { Metadata } from "next";
 
 const categoryLabel: Record<string, string> = {
   engineering: "エンジニアリング",
@@ -21,6 +22,32 @@ const categoryColor: Record<string, string> = {
 
 export async function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return {};
+
+  const url = `https://start-solopreneur.vercel.app/blog/${slug}`;
+  return {
+    title: post.title,
+    description: post.summary,
+    openGraph: {
+      type: "article",
+      url,
+      title: post.title,
+      description: post.summary,
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

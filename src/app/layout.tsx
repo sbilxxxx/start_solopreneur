@@ -12,9 +12,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://start-solopreneur.vercel.app";
+
 export const metadata: Metadata = {
-  title: "My Site — Engineer × Solo Entrepreneur",
-  description: "AI開発エンジニア兼ソロアントレプレナーによる、技術・経営・マーケの学びを発信するサイト",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Start Solopreneur — Claude Code × 一人会社",
+    template: "%s | Start Solopreneur",
+  },
+  description: "Claude Codeを使いながらゼロからソロアントレを始める実験記録。エンジニアリング・経営・マーケの学びをすべて公開。",
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    url: siteUrl,
+    siteName: "Start Solopreneur",
+    title: "Start Solopreneur — Claude Code × 一人会社",
+    description: "Claude Codeを使いながらゼロからソロアントレを始める実験記録。エンジニアリング・経営・マーケの学びをすべて公開。",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@bensolopreneur",
+    creator: "@bensolopreneur",
+  },
 };
 
 export default function RootLayout({

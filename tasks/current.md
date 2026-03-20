@@ -48,10 +48,8 @@ Claude Code では完結しない操作。
 
 PVが計測できないと改善サイクルが回らない。
 
-- [ ] **OGP タグ設定**（各ページに og:title / og:description / og:image）
-  - SNSでシェアされたときにカード表示になる
-- [ ] **サイトマップ生成**（`/sitemap.xml`）
-  - Google がページを認識するために必要
+- [x] **OGP タグ設定** ✅（layout.tsx・blog/[slug]/page.tsx に実装）
+- [x] **サイトマップ生成** ✅（`/sitemap.xml` — src/app/sitemap.ts で自動生成）
 - [ ] **Google Analytics 導入**（GA4）
   - GA4 プロパティ作成 → 測定ID（G-XXXXXXXX）を取得 → サイトに設置
   - *前提: Googleアカウントでプロパティを自分で作成する必要あり*
