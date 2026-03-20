@@ -1,0 +1,178 @@
+---
+title: MCPとは何か——AIが「外の世界」に手を伸ばせるようになる仕組み
+titleEn: What Is MCP — How AI Reaches Beyond Your Local Files
+date: "2026-03-20"
+category: engineering
+tags: [Claude Code, MCP, ソロアントレ, 入門]
+summary: Claude Codeが自分のPCのファイルしか触れなかった理由と、MCPを使うと何が変わるのかを整理した。ソロアントレとして特に使えると思った接続先も書く。
+summaryEn: Why Claude Code was limited to your local files — and what changes when you connect MCP. Including the integrations most useful for solopreneurs.
+---
+
+MCPという言葉を初めて見たとき、正直よくわからなかった。
+
+「Model Context Protocol」という正式名称を見ても、何のことだかピンとこない。調べても技術的な説明が多くて、「で、自分には何が変わるの？」という答えが見えにくかった。
+
+使ってみてようやくわかったのは、これは **Claude Code の「できること」の範囲を根本から変える仕組みだ** ということだ。
+
+---
+
+## Claude Code の「壁」
+
+まずここから理解する必要がある。
+
+Claude Code は、デフォルトの状態では**自分の PC のファイルしか触れない**。
+
+ファイルを読む、コードを書く、ターミナルでコマンドを実行する——これは全部、自分の PC の中で完結している。GitHub のイシューは見えない。Notion のドキュメントは読めない。Google スプレッドシートは触れない。Slack のメッセージもわからない。
+
+外の世界は、Claude Code には存在しないも同然だった。
+
+これは不便というより、「仕方ない」と思っていた。PC の外のことは自分が調べて、情報を貼り付けて、Claude Code に渡す——そういう使い方が普通だと思っていた。
+
+MCP はその前提を変える。
+
+---
+
+## MCP を一言で言うと
+
+**「Claude Code と外部サービスをつなぐ規格」** だ。
+
+規格、というのがポイントで、USB ポートのようなものだと思えばいい。USB の規格があるから、どのメーカーのデバイスでも同じポートにつなげる。MCP も同じで、この規格に対応したサービスであれば、Claude Code から操作できるようになる。
+
+GitHub、Notion、Google Drive、Slack、Stripe——それぞれ全然違うサービスだけど、MCP に対応していれば Claude Code から同じように操作できる。
+
+図にするとこうなる：
+
+```
+【MCP なし】
+Claude Code ─── 自分の PC のファイルのみ
+
+【MCP あり】
+Claude Code ─── 自分の PC のファイル
+            ├── GitHub（Issues・PR・コード）
+            ├── Notion（ドキュメント・DB）
+            ├── Google Drive（スプレッドシート・文書）
+            ├── Slack（メッセージ・通知）
+            ├── Stripe（売上・顧客データ）
+            └── その他 MCP 対応サービス
+```
+
+「AIが外の世界に手を伸ばせるようになる」というのが、自分の理解だ。
+
+---
+
+## ソロアントレにとって何が変わるか
+
+ここが本題だ。
+
+ソロアントレとして動いていると、毎日いくつかのサービスを行き来する。GitHub でタスクを確認して、Notion で記事の構成を考えて、スプレッドシートでコストを計算して、Slack に通知が来たら対応する——それを全部一人でやっている。
+
+MCP があると、**この「サービスを行き来する」作業を Claude Code が代わりにやってくれる**。
+
+例えば、今日の自分の使い方に引きつけて考えると：
+
+**GitHub MCP を使えば**
+- 「今週クローズできていない Issue を一覧して、優先度を整理して」と言える
+- 「このバグ修正の PR を作って、適切な説明文もつけて」を一発でできる
+- タスク管理を GitHub Issues で完結させながら、Claude Code から直接操作できる
+
+**Notion MCP を使えば**
+- Notion に書いた記事の構成メモを Claude Code が読んで、そのままブログ記事に仕上げてくれる
+- 「Notion の○○ページに今月のコスト実績を転記して」が自動化できる
+
+**Google Sheets MCP を使えば**
+- 「finance/ のスプレッドシートを読んで、今月の収支サマリーを作って」が動く
+- 財務部の CLAUDE.md と組み合わせると、CFO エージェントが実際に数字を扱えるようになる
+
+**Stripe MCP を使えば**（将来・収益化フェーズ）
+- 「今月の MRR と解約率を確認して」と言えば Claude Code が Stripe を読みに行く
+- 異常な解約増加があれば自動で通知するような仕組みも作れる
+
+一人で全部の部門を動かすソロアントレにとって、「情報を集めてくる作業」を外部化できるのはかなり効いてくると思っている。
+
+---
+
+## どうやって設定するか
+
+MCP の設定は、プロジェクトのルートに `.mcp.json` というファイルを作るだけだ。
+
+GitHub MCP を例に書く：
+
+**1. `.mcp.json` を作る**
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    }
+  }
+}
+```
+
+**2. GitHub の Personal Access Token を取得する**
+
+GitHub の設定画面 → Developer settings → Personal access tokens → Tokens (classic) → Generate new token で発行できる。`repo` の権限にチェックを入れる。
+
+`ghp_` で始まる文字列が発行される。これは **一度しか表示されない** のでどこかに保存しておく。
+
+**3. トークンを環境変数として設定する**
+
+トークンを `.mcp.json` に直接書くと、GitHub にコミットしたときに漏れる。
+
+代わりに `.claude/settings.local.json`（gitignore 済みのファイル）に書く：
+
+```json
+{
+  "env": {
+    "GITHUB_TOKEN": "ghp_xxxxxxxxxxxx（取得したトークン）"
+  }
+}
+```
+
+`.claude/settings.local.json` は Claude Code が自動で gitignore に追加するファイルなので、GitHub に上がる心配はない。
+
+**4. Claude Code を再起動する**
+
+設定ファイルはセッション開始時に読み込まれる。設定後は必ず再起動する。
+
+---
+
+## 現在このプロジェクトで使っているMCP
+
+今の段階で設定しているのは **GitHub MCP** のみだ。
+
+理由は単純で、このプロジェクトのタスク管理を GitHub Issues に移行しようとしているから。今は `tasks/current.md` というファイルでタスクを管理しているが、GitHub Issues に移すと Claude Code から直接 Issue を作ったりクローズしたりできるようになる。
+
+他の MCP は、そのサービスを本格的に使い始めるタイミングで追加する予定でいる。Google Sheets は財務部が数字を扱うようになる Phase 3〜4 あたり。Stripe は収益化フェーズ（Phase 6）が近づいたら。
+
+全部を一度に設定しても使いこなせない。必要になったときに追加するのが自分のスタイルだ。
+
+---
+
+## MCP に対応しているサービス一覧
+
+参考に、2026 年 3 月現在で使えるものをまとめておく。
+
+| カテゴリ | サービス | ソロアントレとしての使いどころ |
+|---------|---------|--------------------------|
+| **コード管理** | GitHub | タスク・PR・Issue の管理 |
+| **ドキュメント** | Notion | 記事構成・戦略ドキュメント |
+| **ドキュメント** | Google Drive | スプレッドシート・文書 |
+| **コミュニケーション** | Slack | 通知・チャンネルの確認 |
+| **決済** | Stripe | 売上・顧客データの確認 |
+| **タスク管理** | Linear | スプリント・バックログ管理 |
+| **デザイン** | Figma | デザインファイルの参照 |
+| **ブラウザ** | Puppeteer | Webスクレイピング・自動操作 |
+| **データベース** | PostgreSQL / SQLite | データの読み書き |
+| **検索** | Brave Search | Web 検索をそのまま実行 |
+
+公式リポジトリ（[github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)）に対応サービスの一覧がある。新しいものが追加され続けているので、使いたいサービスがあれば調べてみるといい。
+
+---
+
+Claude Code に「外の世界」を渡す——これがMCPの本質だと思っている。
+
+ファイルを読み書きするだけのAIから、自分の使っているサービス全体を横断して動けるAIへ。ソロアントレとして「全部一人でやる」ことの限界を、少しずつ外してくれる仕組みだ。
+
+まだ使い始めたばかりで、本当に効いてくるのはもう少し先だと思う。でも、設定したあとの感覚は「これは後から効いてくる」という予感がある。
