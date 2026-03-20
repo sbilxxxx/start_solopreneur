@@ -58,10 +58,9 @@ PVが計測できないと改善サイクルが回らない。
 
 計測基盤が整ったあとに着手。
 
-- [ ] **GitHub MCP セットアップ**
-  - `.mcp.json` 設定ファイル ✅（最新コミットで追加済み）
-  - GitHub で Personal Access Token を発行 → `.env.local` に `GITHUB_PERSONAL_ACCESS_TOKEN=xxx` を追加
-  - *前提: GitHub Personal Access Token（repo権限）が必要*
+- [x] **GitHub MCP セットアップ** ✅
+  - `.mcp.json` 設定ファイル ✅
+  - GitHub Personal Access Token（repo権限）設定済み ✅
 - [ ] **KPI ダッシュボード**（`/dashboard` ページ）
   - GA4 から PV・フォロワー・コストを1画面で確認できる
   - *前提: Google Analytics 導入後*
