@@ -35,7 +35,7 @@ manager-agent（プロジェクトマネージャー）
 |------|------|
 | **責務** | プロジェクト全体の状況把握・優先順位付け・各Agentへの委任・スケジュール管理 |
 | **管理対象** | `tasks/current.md`・`marketing/sns/`・`notes/decisions/content-roadmap.md` |
-| **ツール** | Read, Glob, Grep, Bash（git logのみ）|
+| **ツール** | Read, Glob, Grep, Bash（git log・ls のみ）|
 | **しないこと** | コードを書く・記事を書く・投稿を実行する |
 
 **使い方:** 「状況を整理して」「スケジュールを確認して」

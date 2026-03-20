@@ -1,6 +1,6 @@
 # 現在のスプリント — Phase 3
 
-最終更新: 2026-03-20（整理）
+最終更新: 2026-03-20
 
 ---
 
@@ -9,7 +9,7 @@
 ```
 Phase 1 ✅  基礎構築
 Phase 2 ✅  会社組織化 + コンテンツ基盤 + X連携
-Phase 3 🔄  マーケ運用 + SEO計測基盤 + Subagents  ← 今ここ
+Phase 3 🔄  マーケ運用 + SEO計測基盤 + 開発拡張  ← 今ここ
 Phase 4 🔲  AI機能実装（Agent Teams・チャット・RAG）
 Phase 5 🔲  高度自動化（Plugins・スケジュール実行）
 Phase 6 🔲  収益化 + 資金管理
@@ -17,11 +17,24 @@ Phase 6 🔲  収益化 + 資金管理
 
 ---
 
+## 情報の正の情報源
+
+このファイルは**開発・手動作業タスク専用**。他の情報は以下を参照すること。
+
+| 情報 | 正の情報源 |
+|------|---------|
+| X投稿の実行状態 | `marketing/sns/YYYY-MM.md` のアーカイブ欄 |
+| 記事の公開状態 | `content/blog/` の実ファイル存在 |
+| 記事の執筆計画 | `notes/decisions/2026-03-20-content-roadmap.md` |
+| エージェント設計 | `notes/decisions/2026-03-20-agent-design.md` |
+
+---
+
 ## Phase 3 の全TODO（優先順）
 
 ---
 
-### 【A】手動作業（自分でやること・今すぐ）
+### 【A】手動作業（自分でやること）
 
 Claude Code では完結しない操作。
 
@@ -32,87 +45,52 @@ Claude Code では完結しない操作。
 
 ---
 
-### 【B】マーケ運用（今すぐ開始できる）
+### 【B】マーケ運用（自動化済み）
 
-下書き済み。あとは投稿するだけ。
+X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行。
+**個別の投稿状態はこのファイルで管理しない。**
 
-- [ ] **3/23（月）気づき系ポスト**を投稿
-- [ ] **3/25（水）実録系ポスト**を投稿
-- [ ] **3/27（金）ブログ誘導系ポスト**を投稿
-- [ ] 投稿後に結果（いいね・RT・フォロワー数）を `marketing/sns/2026-03.md` に記録
+- X投稿の状態 → `marketing/sns/2026-03.md` のアーカイブ欄を確認（正の情報源）
+- ストック残数が2本以下になったら `marketing-agent` に補充を依頼
 - [ ] Zenn に engineering 記事をクロスポスト（1本目: `how-to-start-claude-code`）
 
 ---
 
-### 【C】SEO・計測基盤（前半の優先タスク）
+### 【C】SEO・計測基盤
 
-PVが計測できないと改善サイクルが回らない。
-
-- [x] **OGP タグ設定** ✅（layout.tsx・blog/[slug]/page.tsx に実装）
-- [x] **サイトマップ生成** ✅（`/sitemap.xml` — src/app/sitemap.ts で自動生成）
-- [x] **Google Analytics 導入** ✅（GA4 / G-42LR3VS3FL — @next/third-parties で設置済み）
+- [x] **OGP タグ設定** ✅
+- [x] **サイトマップ生成** ✅
+- [x] **Google Analytics 導入** ✅（GA4 / G-42LR3VS3FL）
 
 ---
 
-### 【D】外部連携・開発（中盤）
-
-計測基盤が整ったあとに着手。
+### 【D】開発（優先順）
 
 - [x] **GitHub MCP セットアップ** ✅
-  - `.mcp.json` 設定ファイル ✅
-  - GitHub Personal Access Token（repo権限）設定済み ✅
-- [ ] **KPI ダッシュボード**（`/dashboard` ページ）
-  - GA4 から PV・フォロワー・コストを1画面で確認できる
-  - *前提: Google Analytics 導入後*
+- [x] **KPI ダッシュボード**（`/dashboard`）✅
 - [ ] **Webhook 実装**
   - 記事公開 → X 投稿文ドラフト自動生成
-  - *前提: APIルート実装後*
+  - 前提: APIルート（`src/app/api/`）実装済み ✅（/api/kpi で達成）
 
 ---
 
-### 【E】Claude Code 拡張機能（後半）
+### 【E】Claude Code 拡張機能
 
-Phase 3 の学習目標。
-
-- [ ] **Subagents 入門**
-  - リサーチ専用エージェントを1つ作る（ブログ記事のネタ収集など）
-  - Subagents と Skills の組み合わせを試す
+- [ ] **Subagents 実践**
+  - `editorial-agent` × `marketing-agent` のパイプラインを動かす
 - [ ] **MCP 実践**（GitHub MCP セットアップ後）
   - Issue 作成・PR マージを Claude Code から操作してみる
 
 ---
 
-### 【F】コンテンツ（Phase 3 中に書く）
+### 【F】コンテンツ（時期依存）
 
-実装したタイミングで書く。
+**記事の公開状態は `content/blog/` の実ファイルが正。このファイルでは管理しない。**
+執筆計画の詳細 → `notes/decisions/2026-03-20-content-roadmap.md`
 
 - [ ] ソロアントレ1ヶ月目レポート（4月末）
 - [ ] フォロワー0からのX運用記録（1ヶ月分たまったら）
-- [x] MCPとは何か ✅（`content/blog/2026-03-20-what-is-mcp.mdx` 完成）
-- [ ] Subagentsで分業した話（Subagents 実装後）
-
----
-
-## 依存関係まとめ
-
-```
-【今すぐ】
-  手動作業（A）
-  X投稿ルーティン開始（B）
-  Zennクロスポスト（B）
-
-【今すぐ・並行】
-  OGP・サイトマップ（C）← Claude Codeで実装できる
-
-【要：Google Analytics ID】
-  GA導入（C）→ KPIダッシュボード（D）
-
-【要：GitHub Token】
-  GitHub MCP（D）→ MCP実践（E）
-
-【順番通りに】
-  GA導入（C）→ Subagents入門（E）→ リサーチエージェント実装
-```
+- [ ] Subagentsで分業した話（Subagents実装後）
 
 ---
 
@@ -120,8 +98,9 @@ Phase 3 の学習目標。
 
 | 目的 | ファイル |
 |------|---------|
-| コンテンツ執筆ロードマップ | `notes/decisions/2026-03-20-content-roadmap.md` |
-| 開発・実行ロードマップ | `notes/decisions/2026-03-20-execution-roadmap.md` |
+| コンテンツ執筆計画 | `notes/decisions/2026-03-20-content-roadmap.md` |
+| 開発実行ロードマップ | `notes/decisions/2026-03-20-execution-roadmap.md` |
 | Claude Code 習得ロードマップ | `notes/decisions/2026-03-20-claudecode-learning-roadmap.md` |
-| X投稿ストック | `marketing/sns/2026-03.md` |
+| エージェント設計 | `notes/decisions/2026-03-20-agent-design.md` |
+| X投稿ストック・実行ログ | `marketing/sns/2026-03.md` |
 | X戦略 | `marketing/strategy/x-strategy.md` |
