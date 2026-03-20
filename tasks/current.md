@@ -56,10 +56,10 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【D】開発（優先順）
 
-- [ ] **Anthropic SDK 導入**（`src/lib/anthropic.ts`）
-- [ ] **記事自動要約**（`/api/summarize`）
+- [ ] **Anthropic SDK 導入**（src/lib/anthropic.ts を新規作成）
+- [ ] **記事自動要約**（/api/summarize を新規作成）
   - Anthropic SDK 導入後に実装
-- [ ] **サイト内チャット機能**（`/api/chat` + `ChatWidget`）
+- [ ] **サイト内チャット機能**（/api/chat + ChatWidget を新規作成）
   - 要約API実装後に実装
 - [ ] **RAG**（ブログ記事のナレッジベース化 + ベクトル検索）
 
