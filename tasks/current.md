@@ -121,7 +121,7 @@ Phase 3 の学習目標。
 | 目的 | ファイル |
 |------|---------|
 | コンテンツ執筆ロードマップ | `notes/decisions/2026-03-20-content-roadmap.md` |
-| 開発・実行ロードマップ | `notes/decisions/2026-03-20-roadmap-all.md` |
-| Claude Code 習得ロードマップ | `notes/decisions/2026-03-20-roadmap-redesign.md` |
+| 開発・実行ロードマップ | `notes/decisions/2026-03-20-execution-roadmap.md` |
+| Claude Code 習得ロードマップ | `notes/decisions/2026-03-20-claudecode-learning-roadmap.md` |
 | X投稿ストック | `marketing/sns/2026-03.md` |
 | X戦略 | `marketing/strategy/x-strategy.md` |
