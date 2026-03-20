@@ -75,7 +75,7 @@ git log --oneline -10
 
 ### 確認すべきファイル
 
-- `marketing/sns/YYYY-MM.md` — X投稿のスケジュールと残ストック数
+- `marketing/sns/YYYY-MM.md` — X投稿のスケジュールと残ストック数（**投稿の完了確認は必ずアーカイブ欄を見る。tasks/current.md のチェックボックスだけで判断しない**）
 - `notes/decisions/2026-03-20-content-roadmap.md` — 記事の執筆・公開予定
 - `tasks/current.md` — 開発タスクの進捗
 
