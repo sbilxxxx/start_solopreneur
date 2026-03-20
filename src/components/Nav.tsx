@@ -1,5 +1,5 @@
 type NavProps = {
-  current?: "about" | "blog";
+  current?: "about" | "blog" | "dashboard";
 };
 
 export default function Nav({ current }: NavProps) {
@@ -25,6 +25,14 @@ export default function Nav({ current }: NavProps) {
               : "hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"}
           >
             Blog
+          </a>
+          <a
+            href="/dashboard"
+            className={current === "dashboard"
+              ? "text-zinc-900 dark:text-zinc-100 font-medium"
+              : "hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"}
+          >
+            Dashboard
           </a>
         </div>
       </div>
