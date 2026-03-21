@@ -77,7 +77,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] #19にて書き込み権限が無いという理由ではなにか？"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] 以下の検討結果をもとに、権限を得るか、他の手法でトークン省エネすぎるがあまりに開発効率が悪い問題を改善してください\n\n✅"
     }
   ],
-  "totalUsd": 1.89
+  "totalUsd": 2.04
 }
