@@ -3,6 +3,14 @@
  * run-manager.mjs / run-editorial.mjs / run-marketing.mjs から共通利用
  */
 
+/** タスク種別ごとの推定APIコスト（USD） */
+export const COST_ESTIMATES = {
+  statusOnly: 0.03,   // 状況確認のみ
+  marketing: 0.10,    // X投稿3本生成
+  editorial: 0.50,    // 記事1本執筆
+  dev: 0.20,          // 軽微な開発タスク
+};
+
 export const SUBAGENTS = {
   "editorial-agent": {
     description: "ブログ記事のリサーチ・執筆・完成",
