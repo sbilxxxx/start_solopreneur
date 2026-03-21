@@ -23,7 +23,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] テスト3"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] テスト"
     }
   ],
-  "totalUsd": 0.54
+  "totalUsd": 0.69
 }
