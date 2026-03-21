@@ -42,11 +42,15 @@ async function handleTextMessage(message: {
     await sendMessage(
       chatId,
       `🤖 <b>使えるコマンド一覧</b>\n\n` +
-        `/status — プロジェクトの現在状況を確認\n` +
+        `/status — タスク・Issueの現在状況を確認\n` +
+        `指示: [内容] — Claude Codeに開発指示を出す\n` +
         `記事 [トピック] — 記事執筆タスクをキューに追加\n` +
         `投稿補充 — X投稿ストックの補充をキューに追加\n` +
         `承認 [N] — Issue #N を承認してclose\n` +
         `却下 [N] — Issue #N を却下（コメント追加）\n\n` +
+        `<b>指示の例:</b>\n` +
+        `<code>指示: ChatWidgetのボタンの色を青に変えて</code>\n` +
+        `<code>指示: About页のプロフィール文を更新して</code>\n\n` +
         `ボタン付きメッセージが届いたら✅/❌ボタンでも承認・却下できます。`,
       "HTML"
     );
@@ -110,6 +114,23 @@ async function handleTextMessage(message: {
     return;
   }
 
+  // 指示コマンド（「指示: 〜」または「実行: 〜」）
+  const instructionMatch = text.match(/^(?:指示|実行)[:\s：]\s*(.+)$/s);
+  if (instructionMatch) {
+    const instruction = instructionMatch[1].trim();
+    const issueNumber = await createGitHubIssue(
+      `[instruction] ${instruction.slice(0, 60)}`,
+      instruction,
+      ["instruction", "telegram"]
+    );
+    await sendMessage(
+      chatId,
+      `⚙️ 指示をキューに追加しました。\nIssue #${issueNumber}\n\n次回の自動チェック（30分以内）で実行されます。\n\n即時実行したい場合はPCで:\n<code>npm run agents:instruction</code>`,
+      "HTML"
+    );
+    return;
+  }
+
   // 未知のコマンド
   await sendMessage(
     chatId,
@@ -120,47 +141,58 @@ async function handleTextMessage(message: {
 // ─── プロジェクト状況サマリー（Claude Haiku） ──────────────────────────────
 
 async function getProjectStatus(): Promise<string> {
+  const headers = { Authorization: `Bearer ${GITHUB_TOKEN}` };
+
+  // tasks/current.md を GitHub APIで取得し、未完了TODOを抽出
+  let todoLines: string[] = [];
   try {
-    // GitHub API でオープンIssueを取得
-    const issuesRes = await fetch(
-      `https://api.github.com/repos/${REPO}/issues?state=open&per_page=10`,
-      {
-        headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
-      }
+    const fileRes = await fetch(
+      `https://api.github.com/repos/${REPO}/contents/tasks/current.md`,
+      { headers }
     );
-    const issues = issuesRes.ok ? await issuesRes.json() : [];
+    if (fileRes.ok) {
+      const fileData = await fileRes.json();
+      const content = Buffer.from(fileData.content, "base64").toString("utf-8");
+      todoLines = content
+        .split("\n")
+        .filter((l) => l.match(/^- \[ \]/))
+        .map((l) => "• " + l.replace(/^- \[ \] \*\*(.+?)\*\*.*/, "$1").replace(/^- \[ \] /, ""))
+        .slice(0, 8);
+    }
+  } catch { /* 取得失敗はスキップ */ }
 
-    const issueList =
-      Array.isArray(issues) && issues.length > 0
-        ? issues
-            .map(
-              (i: { number: number; title: string }) =>
-                `- #${i.number}: ${i.title}`
-            )
-            .join("\n")
-        : "（オープンIssueなし）";
+  // オープンIssueを取得
+  let issueLines: string[] = [];
+  try {
+    const issuesRes = await fetch(
+      `https://api.github.com/repos/${REPO}/issues?state=open&per_page=8`,
+      { headers }
+    );
+    if (issuesRes.ok) {
+      const issues = await issuesRes.json();
+      if (Array.isArray(issues)) {
+        issueLines = issues.map(
+          (i: { number: number; title: string }) => `• #${i.number}: ${i.title}`
+        );
+      }
+    }
+  } catch { /* 取得失敗はスキップ */ }
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    });
-    const response = await anthropic.messages.create({
-      model: "claude-haiku-4-5",
-      max_tokens: 512,
-      messages: [
-        {
-          role: "user",
-          content: `以下のGitHub Issueリストをもとに、プロジェクトの現在状況を3〜5行で簡潔にまとめてください。日本語で。\n\n${issueList}`,
-        },
-      ],
-    });
+  let msg = `📊 <b>プロジェクト状況</b>\n\n`;
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
-    return `📊 <b>プロジェクト状況</b>\n\n${text}\n\n<b>オープンIssue:</b>\n${issueList}`;
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return `❗ 状況取得に失敗しました: ${msg}`;
+  if (todoLines.length > 0) {
+    msg += `📋 <b>未完了タスク（tasks/current.md）</b>\n${todoLines.join("\n")}\n\n`;
+  } else {
+    msg += `📋 <b>未完了タスク</b>\nなし\n\n`;
   }
+
+  if (issueLines.length > 0) {
+    msg += `🐛 <b>オープンIssue</b>\n${issueLines.join("\n")}`;
+  } else {
+    msg += `🐛 <b>オープンIssue</b>\nなし`;
+  }
+
+  return msg;
 }
 
 // ─── ボタン（callback_query）処理 ─────────────────────────────────────────
