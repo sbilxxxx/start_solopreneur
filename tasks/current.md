@@ -94,9 +94,13 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
   5. Vercelにデプロイ後 `npm run telegram:setup` でWebhook登録
 
 **動作確認:**
-- [ ] **Telegram通知テスト**: `npm run telegram:test`
+- [x] **Telegram通知テスト**: `npm run telegram:test`
+- [x] **Telegram Webhook登録**: `npm run telegram:setup`
 - [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
 - [ ] **manager-agent 初回テスト実行**（`npm run agents:manager`）
+  - ⚠️ 未解決: ANTHROPIC_API_KEY が $5 クレジットあるのに "Credit balance is too low" エラー
+  - 切り分け済み: キー・ワークスペース・上限（$100）は正常。原因不明。
+  - 対処: Anthropic サポートに問い合わせ or しばらく待って再試行
 - [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
 
 ---
