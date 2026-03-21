@@ -123,9 +123,15 @@ ${instruction}
       }
     }
 
-    // resultText が空の場合、最後のアシスタントメッセージをフォールバックとして使用
+    // resultText が空の場合、全アシスタントメッセージから「## 実行結果」セクションを検索
     if (!resultText && assistantTexts.length > 0) {
-      resultText = assistantTexts[assistantTexts.length - 1];
+      const allText = assistantTexts.join("\n\n");
+      const resultIndex = allText.indexOf("## 実行結果");
+      if (resultIndex !== -1) {
+        resultText = allText.slice(resultIndex);
+      } else {
+        resultText = allText;
+      }
     }
 
     // git の変更サマリーを取得

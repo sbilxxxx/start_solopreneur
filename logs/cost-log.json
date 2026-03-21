@@ -65,7 +65,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] クロスポストの機能の実装を自立して行ってください。urgentです"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] 実行結果として以下のようにきますが、issue を見ても内容がありませんでした。issueに記載するように修正して\n（詳"
     }
   ],
-  "totalUsd": 1.59
+  "totalUsd": 1.74
 }
