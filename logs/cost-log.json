@@ -95,7 +95,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] トークンの残りはいくら？クロスポストの実装を進めて"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] トークンの残量をテレグラムチャットに返してください"
     }
   ],
-  "totalUsd": 2.34
+  "totalUsd": 2.49
 }
