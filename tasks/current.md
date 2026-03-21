@@ -30,7 +30,7 @@ Phase 6 🔲  収益化 + 資金管理
 
 ---
 
-## Phase 4 の全TODO（優先順）
+## Phase 5 の全TODO（優先順）
 
 ---
 
@@ -41,6 +41,13 @@ Claude Code では完結しない操作。
 - [ ] X アイコン・ヘッダー画像を設定（Xアプリ → プロフィール編集）
 - [ ] URL制限が解除されたら固定ツイートをURL付きで再投稿
 - [ ] Zenn に engineering 記事をクロスポスト（1本目: `how-to-start-claude-code`）
+- [ ] ANTHROPIC_API_KEY を .env.local に設定（未設定なら）
+- [ ] Telegram Bot セットアップ（未設定なら）
+  1. `@BotFather` に `/newbot` → `TELEGRAM_BOT_TOKEN` 取得
+  2. ボットにメッセージ送信 → getUpdates で `TELEGRAM_CHAT_ID` 取得
+  3. ランダム文字列を `TELEGRAM_WEBHOOK_SECRET` に設定
+  4. `npm run telegram:test` で通知確認
+  5. Vercelにデプロイ後 `npm run telegram:setup` でWebhook登録
 
 ---
 
@@ -54,50 +61,9 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ---
 
-### 【D】開発（優先順）
+### 【G】Phase 5 — 自律化（開発）
 
-- [x] **Anthropic SDK 導入**（src/lib/anthropic.ts）
-- [x] **記事自動要約**（/api/summarize）
-- [x] **サイト内チャット機能**（/api/chat + ChatWidget）
-- [x] **RAG**（src/lib/rag.ts — Claude Haikuで関連記事選択、チャットに自動注入）
-
----
-
-### 【E】Claude Code 拡張機能（Phase 3 持越し）
-
-- [x] **日英自動翻訳パイプライン**
-  - `scripts/translate-post.mjs <slug>` で titleEn/summaryEn を自動生成
-  - editorial pipeline 完了後に自動実行
-  - `npm run translate <slug>` で単体実行も可能
-- [x] **記事公開 → Telegram通知 Hook**
-  - `content/blog/` に Write → `scripts/hooks/on-blog-write.mjs` → Telegram通知
-  - settings.local.json の PostToolUse hook に登録済み
-- [x] **Subagents 実践**
-  - scripts/agents/ に run-manager / run-editorial / run-marketing 実装済み
-  - `npm run agents:editorial "トピック"` で editorial→seo→reviewer パイプライン動作
-- [x] **MCP 実践**（GitHub MCP）
-  - .mcp.json に github MCP サーバー設定済み
-  - manager-agent が `mcp__github__*` でIssue作成・確認できる
-  - Task Scheduler `SoloPreneur\Manager-Agent` を毎日9時に登録済み
-
----
-
-### 【G】Phase 5 — 自律化（新規）
-
-**セットアップ（手動）:**
-- [ ] **ANTHROPIC_API_KEY を .env.local に設定**
-- [ ] **Telegram Bot セットアップ**
-  1. Telegramで `@BotFather` に `/newbot` → `TELEGRAM_BOT_TOKEN` 取得
-  2. ボットにメッセージ送信 → `https://api.telegram.org/bot{TOKEN}/getUpdates` で `TELEGRAM_CHAT_ID` 取得
-  3. ランダム文字列を `TELEGRAM_WEBHOOK_SECRET` に設定
-  4. `npm run telegram:test` で通知確認
-  5. Vercelにデプロイ後 `npm run telegram:setup` でWebhook登録
-
-**動作確認:**
-- [x] **Telegram通知テスト**: `npm run telegram:test`
-- [x] **Telegram Webhook登録**: `npm run telegram:setup`
 - [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
-- [x] **manager-agent 初回テスト実行**（`npm run agents:manager`）
 - [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
 
 ---
@@ -109,7 +75,7 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 - [ ] ソロアントレ1ヶ月目レポート（4月末）
 - [ ] フォロワー0からのX運用記録（1ヶ月分たまったら）
-- [ ] Subagentsで分業した話（Subagents実装後）
+- [ ] Subagentsで分業した話（実装後）
 
 ---
 
@@ -117,10 +83,9 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 | 目的 | ファイル |
 |------|---------|
-| Phase 3 アーカイブ | `tasks/phase-3.md` |
+| Phase 4 アーカイブ | `tasks/backlog/phase-4-6.md` |
 | コンテンツ執筆計画 | `notes/decisions/2026-03-20-content-roadmap.md` |
 | 開発実行ロードマップ | `notes/decisions/2026-03-20-execution-roadmap.md` |
-| Claude Code 習得ロードマップ | `notes/decisions/2026-03-20-claudecode-learning-roadmap.md` |
 | エージェント設計 | `notes/decisions/2026-03-20-agent-design.md` |
 | X投稿ストック・実行ログ | `marketing/sns/2026-03.md` |
 | X戦略 | `marketing/strategy/x-strategy.md` |

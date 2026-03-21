@@ -41,7 +41,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] テレグラムからタスクを指示した場合に、APIトークンを多く消費しがちなので省エネになるように工夫してください"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] 今後のTODOを整理して。省エネで。"
     }
   ],
-  "totalUsd": 0.99
+  "totalUsd": 1.14
 }
