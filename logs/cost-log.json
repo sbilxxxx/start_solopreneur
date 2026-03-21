@@ -59,7 +59,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] テレグラムから指示しても２回に一回、タスクが実行されません。改善してください。"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] クロスポストの機能の実装を自立して行ってください。urgentです"
     }
   ],
-  "totalUsd": 1.44
+  "totalUsd": 1.59
 }
