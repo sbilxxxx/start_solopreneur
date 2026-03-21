@@ -123,11 +123,22 @@ async function handleTextMessage(message: {
       instruction,
       ["instruction", "telegram"]
     );
-    await sendMessage(
-      chatId,
-      `⚙️ 指示をキューに追加しました。\nIssue #${issueNumber}\n\n次回の自動チェック（30分以内）で実行されます。\n\n即時実行したい場合はPCで:\n<code>npm run agents:instruction</code>`,
-      "HTML"
-    );
+    // 即時実行 or 次回チェックをボタンで選ばせる
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: `⚙️ <b>指示をキューに追加しました</b>\nIssue #${issueNumber}: ${instruction.slice(0, 80)}\n\nいつ実行しますか？`,
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [[
+            { text: "⚡ 即時実行（3分以内）", callback_data: `run_now:${issueNumber}` },
+            { text: "⏰ 次回チェック（30分以内）", callback_data: `run_later:${issueNumber}` },
+          ]],
+        },
+      }),
+    });
     return;
   }
 
@@ -220,6 +231,17 @@ async function handleCallbackQuery(callbackQuery: {
       from.id,
       `❌ Issue #${issueNumber} を却下しました。理由があればGitHubにコメントしてください。`
     );
+  } else if (action === "run_now") {
+    await addLabelToIssue(issueNumber, "urgent");
+    await sendMessage(
+      from.id,
+      `⚡ Issue #${issueNumber} を即時実行キューに追加しました。\n3分以内に実行されます。`
+    );
+  } else if (action === "run_later") {
+    await sendMessage(
+      from.id,
+      `⏰ Issue #${issueNumber} は次回の自動チェック（30分以内）で実行されます。`
+    );
   }
 }
 
@@ -266,6 +288,20 @@ async function createGitHubIssue(
   });
   const data = await res.json();
   return data.number;
+}
+
+async function addLabelToIssue(issueNumber: number, label: string) {
+  await fetch(
+    `https://api.github.com/repos/${REPO}/issues/${issueNumber}/labels`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ labels: [label] }),
+    }
+  );
 }
 
 async function closeIssue(issueNumber: number) {

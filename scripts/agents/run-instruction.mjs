@@ -21,9 +21,14 @@ config({ path: resolve(__dirname, "../../.env.local") });
 const REPO = "sbilxxxx/start_solopreneur";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-async function getPendingInstructions() {
+/**
+ * urgentOnly=true のとき urgent ラベル付きのみ取得
+ * urgentOnly=false のとき instruction ラベル付き全件取得
+ */
+async function getPendingInstructions(urgentOnly = false) {
+  const labels = urgentOnly ? "instruction,urgent" : "instruction";
   const res = await fetch(
-    `https://api.github.com/repos/${REPO}/issues?state=open&labels=instruction&per_page=5`,
+    `https://api.github.com/repos/${REPO}/issues?state=open&labels=${labels}&per_page=5`,
     { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` } }
   );
   if (!res.ok) return [];
@@ -105,10 +110,12 @@ ${instruction}
 }
 
 async function main() {
-  const issues = await getPendingInstructions();
+  // --urgent フラグがあれば urgent ラベル付きのみ処理
+  const urgentOnly = process.argv.includes("--urgent");
+  const issues = await getPendingInstructions(urgentOnly);
 
   if (issues.length === 0) {
-    console.log("[Instruction] 未処理の指示Issueなし。終了。");
+    console.log(`[Instruction] 未処理の指示Issueなし（${urgentOnly ? "urgent" : "全件"}）。終了。`);
     return;
   }
 
