@@ -1,0 +1,12 @@
+﻿2026-03-21T08:34:05.3795776Z ##[group]Run node scripts/agents/run-instruction.mjs --urgent
+2026-03-21T08:34:05.3796274Z [36;1mnode scripts/agents/run-instruction.mjs --urgent[0m
+2026-03-21T08:34:05.3825441Z shell: /usr/bin/bash -e {0}
+2026-03-21T08:34:05.3825733Z env:
+2026-03-21T08:34:05.3826524Z   ANTHROPIC_API_KEY: ***
+2026-03-21T08:34:05.3826944Z   GITHUB_TOKEN: ***
+2026-03-21T08:34:05.3827270Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-21T08:34:05.3827517Z   TELEGRAM_CHAT_ID: ***
+2026-03-21T08:34:05.3827744Z ##[endgroup]
+2026-03-21T08:34:05.4722946Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2026-03-21T08:34:05.4727879Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🛡️ auth for agents: https://vestauth.com
+2026-03-21T08:34:05.8405259Z [Instruction] 未処理の指示Issueなし（urgent）。終了。
