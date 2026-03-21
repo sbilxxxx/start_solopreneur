@@ -65,6 +65,7 @@ async function executeInstruction(issue) {
   await sendTelegram(`⚙️ <b>指示を実行中</b>\nIssue #${number}: ${title}`, "HTML");
 
   let resultText = "";
+  const assistantTexts = [];
 
   try {
     for await (const message of query({
@@ -75,7 +76,7 @@ ${instruction}
 
 ## 制約
 - 本番デプロイ・課金・外部サービスへの直接操作はしない
-- 完了したら何をしたか簡潔に報告する`,
+- 完了したら必ず「## 実行結果」として何をしたか箇条書きで詳細に報告すること（例: 変更したファイル・追加した機能・修正内容など）`,
       options: {
         cwd: process.cwd(),
         allowedTools: ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
@@ -84,16 +85,44 @@ ${instruction}
         maxBudgetUsd: 0.3,
       },
     })) {
+      // アシスタントのテキストブロックを収集（フォールバック用）
+      if (message.type === "assistant" && Array.isArray(message.message?.content)) {
+        for (const block of message.message.content) {
+          if (block.type === "text" && block.text) {
+            assistantTexts.push(block.text);
+          }
+        }
+      }
       if ("result" in message) {
         resultText = message.result;
       }
     }
 
+    // resultText が空の場合、最後のアシスタントメッセージをフォールバックとして使用
+    if (!resultText && assistantTexts.length > 0) {
+      resultText = assistantTexts[assistantTexts.length - 1];
+    }
+
+    // git の変更サマリーを取得
+    let gitSummary = "";
+    try {
+      const { execSync } = await import("child_process");
+      const stat = execSync("git diff --stat HEAD 2>/dev/null || git status --short 2>/dev/null")
+        .toString()
+        .trim();
+      if (stat) {
+        gitSummary = `\n\n📁 <b>変更ファイル:</b>\n<code>${stat.slice(0, 300)}</code>`;
+      }
+    } catch { /* git情報取得失敗は無視 */ }
+
     // 成功
     const comment = `✅ 実行完了\n\n${resultText}`;
     await commentAndClose(number, comment);
+    const telegramBody = resultText
+      ? `${resultText.slice(0, 500)}${gitSummary}`
+      : `（詳細ログはGitHub Issue #${number}を確認）${gitSummary}`;
     await sendTelegram(
-      `✅ <b>指示完了</b>\nIssue #${number}: ${title}\n\n${resultText.slice(0, 400)}`,
+      `✅ <b>指示完了</b>\nIssue #${number}: ${title}\n\n${telegramBody}`,
       "HTML"
     );
     recordCost("instruction", 0.15, title);
