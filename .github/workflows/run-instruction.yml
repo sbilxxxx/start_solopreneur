@@ -2,12 +2,13 @@ name: Run Instruction Agent
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, labeled]
 
 jobs:
   run-instruction:
-    # "instruction" ラベルが付いたときだけ実行
-    if: github.event.label.name == 'instruction' || github.event.label.name == 'urgent'
+    if: |
+      (github.event.action == 'opened' && contains(toJSON(github.event.issue.labels), '"instruction"')) ||
+      (github.event.action == 'labeled' && (github.event.label.name == 'instruction' || github.event.label.name == 'urgent'))
     runs-on: ubuntu-latest
     timeout-minutes: 15
 

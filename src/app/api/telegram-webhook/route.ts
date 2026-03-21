@@ -278,19 +278,48 @@ async function createGitHubIssue(
   body: string,
   labels: string[]
 ): Promise<number> {
+  // ラベルなしでIssueを作成
   const res = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ title, body, labels }),
+    body: JSON.stringify({ title, body }),
   });
   const data = await res.json();
-  return data.number;
+  const issueNumber = data.number;
+
+  // ラベルを別呼び出しで追加（issues: labeled イベントを発火させるため）
+  await fetch(
+    `https://api.github.com/repos/${REPO}/issues/${issueNumber}/labels`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ labels }),
+    }
+  );
+
+  return issueNumber;
+}
+
+async function ensureLabelExists(label: string) {
+  await fetch(`https://api.github.com/repos/${REPO}/labels`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: label, color: "e4e669" }),
+  });
+  // 既存の場合は 422 が返るが無視してよい
 }
 
 async function addLabelToIssue(issueNumber: number, label: string) {
+  await ensureLabelExists(label);
   await fetch(
     `https://api.github.com/repos/${REPO}/issues/${issueNumber}/labels`,
     {
