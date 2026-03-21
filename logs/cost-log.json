@@ -17,7 +17,13 @@
       "agent": "manager",
       "usd": 0.13,
       "note": "X投稿ストック補充（残0本）"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] テスト3"
     }
   ],
-  "totalUsd": 0.39
+  "totalUsd": 0.54
 }
