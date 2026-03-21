@@ -5,8 +5,14 @@
  * 例:   node scripts/agents/run-editorial.mjs "Claude Codeで自動化した話"
  */
 
+import { config } from "dotenv";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { SUBAGENTS } from "./subagents.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+config({ path: resolve(__dirname, "../../.env.local") });
 
 const topic = process.argv[2];
 if (!topic) {

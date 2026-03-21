@@ -5,8 +5,14 @@
  * 実行: node scripts/agents/run-manager.mjs
  */
 
+import { config } from "dotenv";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { SUBAGENTS } from "./subagents.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+config({ path: resolve(__dirname, "../../.env.local") });
 
 const today = new Date().toLocaleDateString("ja-JP", {
   weekday: "long",

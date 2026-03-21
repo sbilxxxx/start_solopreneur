@@ -5,8 +5,14 @@
  * 例:   node scripts/agents/run-marketing.mjs 3
  */
 
+import { config } from "dotenv";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { SUBAGENTS } from "./subagents.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+config({ path: resolve(__dirname, "../../.env.local") });
 
 const count = parseInt(process.argv[2] ?? "3", 10);
 

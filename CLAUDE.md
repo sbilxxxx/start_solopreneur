@@ -66,6 +66,9 @@ AIを使いこなしながら実践・発信するウェブサイト。
 ## 現在の開発フェーズ
 
 **Phase 1（完了）:** 基礎操作 + CLAUDE.md + Hooks
-**Phase 2（進行中）:** 会社組織化 + Skills + MCP
+**Phase 2（完了）:** 会社組織化 + Skills + MCP
+**Phase 3（完了）:** マーケ運用 + SEO計測基盤 + 開発拡張
+**Phase 4（完了）:** AI機能実装（Anthropic SDK・チャット・RAG）
+**Phase 5（進行中）:** 高度自動化（Agent Teams・自律化・GitHub MCP）
 
 フェーズ定義: `notes/decisions/2026-03-20-roadmap-redesign.md`

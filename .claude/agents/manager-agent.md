@@ -1,7 +1,7 @@
 ---
 name: manager-agent
 description: プロジェクト全体を俯瞰して現状を評価し、次にやるべきことを整理して各エージェントに仕事を割り当てるプロジェクトマネージャー。記事・X投稿のスケジュールを一元管理する。「状況を整理して」「次は何をすべきか」「プロジェクトをレビューして」「タスクを確認して」「スケジュールを確認して」と言われたら起動する。
-tools: Read, Glob, Grep, Bash
+tools: Read, Glob, Grep, Bash, mcp__github__create_issue, mcp__github__list_issues, mcp__github__get_issue, mcp__github__update_issue
 ---
 
 # プロジェクトマネージャー
@@ -46,10 +46,15 @@ tools: Read, Glob, Grep, Bash
 node scripts/monitor.mjs --dry-run
 ```
 
-これで「今この瞬間に存在する問題」を再検出できる。
-既存のオープン Issue は GitHub（https://github.com/sbilxxxx/start_solopreneur/issues?q=label%3Amonitor+is%3Aopen）で確認。
+**GitHub MCP でオープンIssueを確認する（推奨）:**
+`mcp__github__list_issues` で `sbilxxxx/start_solopreneur` のオープンIssueを取得する。
+ラベル `monitor` のものは自動検出アラート。
 
 **未対応の `[Monitor]` Issue があればアクションプランの冒頭に警告として表示する。**
+
+**人間の判断が必要な場合はGitHub MCPでIssueを作成する:**
+`mcp__github__create_issue` でリポジトリ `sbilxxxx/start_solopreneur` にIssueを作成する。
+タイトルに `[Manager]` プレフィックスを付ける。
 
 ### Step 1: 開発タスクの確認
 

@@ -1,6 +1,6 @@
-# 現在のスプリント — Phase 4
+# 現在のスプリント — Phase 5
 
-最終更新: 2026-03-20
+最終更新: 2026-03-21
 
 ---
 
@@ -10,8 +10,8 @@
 Phase 1 ✅  基礎構築
 Phase 2 ✅  会社組織化 + コンテンツ基盤 + X連携
 Phase 3 ✅  マーケ運用 + SEO計測基盤 + 開発拡張
-Phase 4 🔄  AI機能実装（Anthropic SDK・チャット・RAG）  ← 今ここ
-Phase 5 🔲  高度自動化（Plugins・Agent Teams）
+Phase 4 ✅  AI機能実装（Anthropic SDK・チャット・RAG）
+Phase 5 🔄  高度自動化（Plugins・Agent Teams・自律化）  ← 今ここ
 Phase 6 🔲  収益化 + 資金管理
 ```
 
@@ -68,8 +68,19 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 - [x] **Subagents 実践**
   - scripts/agents/ に run-manager / run-editorial / run-marketing 実装済み
   - `npm run agents:editorial "トピック"` で editorial→seo→reviewer パイプライン動作
-- [ ] **MCP 実践**（GitHub MCP セットアップ後）
-  - Issue 作成・PR マージを Claude Code から操作してみる
+- [x] **MCP 実践**（GitHub MCP）
+  - .mcp.json に github MCP サーバー設定済み
+  - manager-agent が `mcp__github__*` でIssue作成・確認できる
+  - Task Scheduler `SoloPreneur\Manager-Agent` を毎日9時に登録済み
+
+---
+
+### 【G】Phase 5 — 自律化（新規）
+
+- [ ] **ANTHROPIC_API_KEY を .env.local に設定**（手動）
+- [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
+- [ ] **manager-agent 初回テスト実行**（`npm run agents:manager`）
+- [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
 
 ---
 
