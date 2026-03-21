@@ -123,22 +123,11 @@ async function handleTextMessage(message: {
       instruction,
       ["instruction", "telegram"]
     );
-    // 即時実行 or 次回チェックをボタンで選ばせる
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: `⚙️ <b>指示をキューに追加しました</b>\nIssue #${issueNumber}: ${instruction.slice(0, 80)}\n\nいつ実行しますか？`,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [[
-            { text: "⚡ 即時実行（3分以内）", callback_data: `run_now:${issueNumber}` },
-            { text: "⏰ 次回チェック（30分以内）", callback_data: `run_later:${issueNumber}` },
-          ]],
-        },
-      }),
-    });
+    await sendMessage(
+      chatId,
+      `⚙️ <b>指示を受け付けました</b>\nIssue #${issueNumber}: ${instruction.slice(0, 80)}\n\nGitHub Actionsで自動実行します（約1分以内）。`,
+      "HTML"
+    );
     return;
   }
 
@@ -230,17 +219,6 @@ async function handleCallbackQuery(callbackQuery: {
     await sendMessage(
       from.id,
       `❌ Issue #${issueNumber} を却下しました。理由があればGitHubにコメントしてください。`
-    );
-  } else if (action === "run_now") {
-    await addLabelToIssue(issueNumber, "urgent");
-    await sendMessage(
-      from.id,
-      `⚡ Issue #${issueNumber} を即時実行キューに追加しました。\n3分以内に実行されます。`
-    );
-  } else if (action === "run_later") {
-    await sendMessage(
-      from.id,
-      `⏰ Issue #${issueNumber} は次回の自動チェック（30分以内）で実行されます。`
     );
   }
 }
