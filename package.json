@@ -11,7 +11,8 @@
     "agents:editorial": "node scripts/agents/run-editorial.mjs",
     "agents:marketing": "node scripts/agents/run-marketing.mjs",
     "telegram:setup": "node scripts/lib/setup-telegram-webhook.mjs",
-    "telegram:test": "node scripts/lib/notify.mjs 'テスト通知'"
+    "telegram:test": "node scripts/lib/notify.mjs 'テスト通知'",
+    "translate": "node scripts/translate-post.mjs"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.81",

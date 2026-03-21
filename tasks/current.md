@@ -65,6 +65,13 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【E】Claude Code 拡張機能（Phase 3 持越し）
 
+- [x] **日英自動翻訳パイプライン**
+  - `scripts/translate-post.mjs <slug>` で titleEn/summaryEn を自動生成
+  - editorial pipeline 完了後に自動実行
+  - `npm run translate <slug>` で単体実行も可能
+- [x] **記事公開 → Telegram通知 Hook**
+  - `content/blog/` に Write → `scripts/hooks/on-blog-write.mjs` → Telegram通知
+  - settings.local.json の PostToolUse hook に登録済み
 - [x] **Subagents 実践**
   - scripts/agents/ に run-manager / run-editorial / run-marketing 実装済み
   - `npm run agents:editorial "トピック"` で editorial→seo→reviewer パイプライン動作

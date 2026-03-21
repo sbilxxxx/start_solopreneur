@@ -8,6 +8,8 @@
 import { config } from "dotenv";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
+import { readdirSync, statSync } from "fs";
+import { execSync } from "child_process";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { SUBAGENTS } from "./subagents.mjs";
 
@@ -53,8 +55,25 @@ for await (const message of query({
   },
 })) {
   if ("result" in message) {
-    console.log("\n[Editorial] 完了:");
-    console.log(message.result);
+    console.log("\n[Editorial] 執筆・レビュー完了");
+
+    // 保存されたドラフトの最新ファイルを英訳
+    try {
+      const draftsDir = resolve(process.cwd(), "content/drafts");
+      const files = readdirSync(draftsDir).filter((f) => f.endsWith(".mdx"));
+      const latest = files
+        .map((f) => ({ name: f, mtime: statSync(resolve(draftsDir, f)).mtimeMs }))
+        .sort((a, b) => b.mtime - a.mtime)[0];
+
+      if (latest) {
+        const slug = latest.name.replace(/\.mdx$/, "");
+        console.log(`\n[Editorial] 英訳中: ${slug}`);
+        execSync(`node scripts/translate-post.mjs ${slug}`, { stdio: "inherit" });
+      }
+    } catch (e) {
+      console.warn("[Editorial] 英訳スキップ:", e.message);
+    }
+
     console.log("\n記事は content/drafts/ に保存されました。");
     console.log("本番公開する場合は content/blog/ に移動してください。");
   }
