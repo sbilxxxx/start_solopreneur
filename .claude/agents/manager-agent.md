@@ -52,9 +52,15 @@ node scripts/monitor.mjs --dry-run
 
 **未対応の `[Monitor]` Issue があればアクションプランの冒頭に警告として表示する。**
 
-**人間の判断が必要な場合はGitHub MCPでIssueを作成する:**
-`mcp__github__create_issue` でリポジトリ `sbilxxxx/start_solopreneur` にIssueを作成する。
-タイトルに `[Manager]` プレフィックスを付ける。
+**人間の判断が必要な場合はGitHub MCPでIssueを作成 → LINE通知する:**
+1. `mcp__github__create_issue` でリポジトリ `sbilxxxx/start_solopreneur` にIssueを作成する
+   - タイトルに `[Manager]` プレフィックスを付ける
+   - ラベル `承認待ち` を付ける
+   - 本文に「✅ Issueをcloseしたら承認 / 💬 コメントで却下・修正指示」と記載する
+2. Issue作成後、以下でLINE通知を送る:
+   ```bash
+   node scripts/lib/notify.mjs "【承認待ち】[タスク概要] → Issue #番号: https://github.com/sbilxxxx/start_solopreneur/issues/番号"
+   ```
 
 ### Step 1: 開発タスクの確認
 

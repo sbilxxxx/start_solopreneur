@@ -77,10 +77,23 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【G】Phase 5 — 自律化（新規）
 
-- [ ] **ANTHROPIC_API_KEY を .env.local に設定**（手動）
+**セットアップ（手動）:**
+- [ ] **ANTHROPIC_API_KEY を .env.local に設定**
+- [ ] **LINE Notify トークンを取得して .env.local に設定**
+  - 取得先: https://notify-bot.line.me/my/（「トークンを発行する」）
+  - 設定キー: `LINE_NOTIFY_TOKEN`
+
+**動作確認:**
+- [ ] **LINE通知テスト**: `node scripts/lib/notify.mjs "テスト通知"`
 - [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
 - [ ] **manager-agent 初回テスト実行**（`npm run agents:manager`）
 - [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
+
+**将来のTODO（Phase 6候補）:**
+- [ ] **LINE Messaging API 実装**（双方向通知 — LINEから直接返信できる構成）
+  - LINE DevelopersでMessaging APIチャンネル作成
+  - Webhookエンドポイント `/api/line-webhook` を実装
+  - ユーザーの返信をGitHub Issue closeに変換するロジック
 
 ---
 
