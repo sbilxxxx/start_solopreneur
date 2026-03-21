@@ -47,7 +47,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] 今後のTODOを整理して。省エネで。"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] クロスポスト機能の実装を進めてください"
     }
   ],
-  "totalUsd": 1.14
+  "totalUsd": 1.29
 }
