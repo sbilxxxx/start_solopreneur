@@ -43,6 +43,7 @@ async function handleTextMessage(message: {
       chatId,
       `🤖 <b>使えるコマンド一覧</b>\n\n` +
         `/status — タスク・Issueの現在状況を確認\n` +
+        `/token — Claude Codeのトークン残量を確認\n` +
         `指示: [内容] — Claude Codeに開発指示を出す\n` +
         `記事 [トピック] — 記事執筆タスクをキューに追加\n` +
         `投稿補充 — X投稿ストックの補充をキューに追加\n` +
@@ -54,6 +55,26 @@ async function handleTextMessage(message: {
         `ボタン付きメッセージが届いたら✅/❌ボタンでも承認・却下できます。`,
       "HTML"
     );
+    return;
+  }
+
+  if (text === "/token" || text === "トークン" || text === "token") {
+    const spent = parseFloat(process.env.CLAUDE_BUDGET_SPENT ?? "0");
+    const total = parseFloat(process.env.CLAUDE_BUDGET_TOTAL ?? "0");
+    const remaining = parseFloat(process.env.CLAUDE_BUDGET_REMAINING ?? "0");
+
+    let msg = `🪙 <b>Claude Code トークン残量</b>\n\n`;
+    if (total > 0) {
+      const usedPct = ((spent / total) * 100).toFixed(1);
+      msg += `💰 残量: <b>$${remaining.toFixed(4)}</b>\n`;
+      msg += `📊 使用済み: $${spent.toFixed(4)} / $${total.toFixed(2)} (${usedPct}%)\n`;
+      const bar = buildProgressBar(spent / total, 10);
+      msg += `[${bar}]`;
+    } else {
+      msg += `⚠️ 予算情報が設定されていません。\n`;
+      msg += `環境変数 <code>CLAUDE_BUDGET_SPENT</code> / <code>CLAUDE_BUDGET_TOTAL</code> / <code>CLAUDE_BUDGET_REMAINING</code> を設定してください。`;
+    }
+    await sendMessage(chatId, msg, "HTML");
     return;
   }
 

@@ -101,7 +101,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] トークンの残量をテレグラムチャットに返してください"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] トークンの残量をテレグラムチャットに返してください"
     }
   ],
-  "totalUsd": 2.49
+  "totalUsd": 2.64
 }
