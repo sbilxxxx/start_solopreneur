@@ -115,7 +115,7 @@ async function handleTextMessage(message: {
   }
 
   // 指示コマンド（「指示: 〜」または「実行: 〜」）
-  const instructionMatch = text.match(/^(?:指示|実行)[:\s：]\s*(.+)$/s);
+  const instructionMatch = text.match(/^(?:指示|実行)[:\s：]\s*([\s\S]+)$/);
   if (instructionMatch) {
     const instruction = instructionMatch[1].trim();
     const issueNumber = await createGitHubIssue(
