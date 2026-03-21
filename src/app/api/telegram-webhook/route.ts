@@ -70,7 +70,7 @@ async function handleTextMessage(message: {
     const issueNumber = await createGitHubIssue(
       `[editorial] 記事執筆: ${topic}`,
       `Telegramから依頼された記事執筆タスク。\n\n**トピック:** ${topic}\n\n次回のmanager-agent実行時に処理されます。`,
-      ["editorial", "telegram"]
+      ["editorial"]
     );
     await sendMessage(
       chatId,
@@ -83,7 +83,7 @@ async function handleTextMessage(message: {
     const issueNumber = await createGitHubIssue(
       "[marketing] X投稿ストック補充",
       "Telegramから依頼されたX投稿ストック補充タスク。\n\n次回のmanager-agent実行時に処理されます。",
-      ["marketing", "telegram"]
+      ["marketing"]
     );
     await sendMessage(
       chatId,
@@ -121,7 +121,7 @@ async function handleTextMessage(message: {
     const issueNumber = await createGitHubIssue(
       `[instruction] ${instruction.slice(0, 60)}`,
       instruction,
-      ["instruction", "telegram"]
+      ["instruction"]
     );
     await sendMessage(
       chatId,
