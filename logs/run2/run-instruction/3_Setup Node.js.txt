@@ -1,0 +1,24 @@
+﻿2026-03-21T08:48:03.9222818Z ##[group]Run actions/setup-node@v4
+2026-03-21T08:48:03.9224103Z with:
+2026-03-21T08:48:03.9224844Z   node-version: 20
+2026-03-21T08:48:03.9225663Z   cache: npm
+2026-03-21T08:48:03.9226624Z   always-auth: false
+2026-03-21T08:48:03.9227702Z   check-latest: false
+2026-03-21T08:48:03.9229020Z   token: ***
+2026-03-21T08:48:03.9229788Z ##[endgroup]
+2026-03-21T08:48:04.1060526Z Found in cache @ /opt/hostedtoolcache/node/20.20.1/x64
+2026-03-21T08:48:04.1067006Z ##[group]Environment details
+2026-03-21T08:48:04.4680125Z node: v20.20.1
+2026-03-21T08:48:04.4680691Z npm: 10.8.2
+2026-03-21T08:48:04.4680952Z yarn: 1.22.22
+2026-03-21T08:48:04.4681639Z ##[endgroup]
+2026-03-21T08:48:04.4704271Z [command]/opt/hostedtoolcache/node/20.20.1/x64/bin/npm config get cache
+2026-03-21T08:48:04.5965868Z /home/runner/.npm
+2026-03-21T08:48:04.8544824Z Cache hit for: node-cache-Linux-x64-npm-88667f150e2fbc6164729e526a246b2c5fb36934bc70ecbc81a2e445bbac9735
+2026-03-21T08:48:06.1216966Z Received 37748736 of 195040412 (19.4%), 36.0 MBs/sec
+2026-03-21T08:48:07.1269174Z Received 142606336 of 195040412 (73.1%), 67.9 MBs/sec
+2026-03-21T08:48:07.3958370Z Received 195040412 of 195040412 (100.0%), 81.8 MBs/sec
+2026-03-21T08:48:07.3994622Z Cache Size: ~186 MB (195040412 B)
+2026-03-21T08:48:07.4109113Z [command]/usr/bin/tar -xf /home/runner/work/_temp/4a273722-f1ae-4615-8e9c-09292de4cab9/cache.tzst -P -C /home/runner/work/start_solopreneur/start_solopreneur --use-compress-program unzstd
+2026-03-21T08:48:07.7433821Z Cache restored successfully
+2026-03-21T08:48:07.7825753Z Cache restored from key: node-cache-Linux-x64-npm-88667f150e2fbc6164729e526a246b2c5fb36934bc70ecbc81a2e445bbac9735

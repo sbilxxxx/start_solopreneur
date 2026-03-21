@@ -1,0 +1,18 @@
+﻿2026-03-21T08:48:17.3368108Z ##[group]Run node scripts/agents/run-instruction.mjs
+2026-03-21T08:48:17.3368562Z [36;1mnode scripts/agents/run-instruction.mjs[0m
+2026-03-21T08:48:17.3420111Z shell: /usr/bin/bash -e {0}
+2026-03-21T08:48:17.3420397Z env:
+2026-03-21T08:48:17.3421093Z   ANTHROPIC_API_KEY: ***
+2026-03-21T08:48:17.3421456Z   GITHUB_TOKEN: ***
+2026-03-21T08:48:17.3421787Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-21T08:48:17.3422034Z   TELEGRAM_CHAT_ID: ***
+2026-03-21T08:48:17.3422256Z ##[endgroup]
+2026-03-21T08:48:17.4475157Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+2026-03-21T08:48:17.4482059Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  enable debug logging with { debug: true }
+2026-03-21T08:48:17.9344406Z [Instruction] 1件の指示を処理します
+2026-03-21T08:48:17.9345127Z 
+2026-03-21T08:48:17.9345818Z [Instruction] Issue #5: [instruction] テスト
+2026-03-21T08:48:17.9346716Z [Instruction] 実行中...
+2026-03-21T08:48:17.9347024Z 
+2026-03-21T08:48:18.5594694Z [Notify] Telegram通知送信完了
+2026-03-21T08:48:33.3868541Z [Notify] Telegram通知送信完了
