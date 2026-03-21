@@ -105,7 +105,7 @@ ${instruction}
       options: {
         cwd: process.cwd(),
         allowedTools: ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
-        permissionMode: "acceptEdits",
+        permissionMode: "bypassPermissions",
         maxTurns: settings.maxTurns,
         maxBudgetUsd: settings.maxBudgetUsd,
       },
