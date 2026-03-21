@@ -57,9 +57,9 @@ node scripts/monitor.mjs --dry-run
    - タイトルに `[Manager]` プレフィックスを付ける
    - ラベル `承認待ち` を付ける
    - 本文に「✅ Issueをcloseしたら承認 / 💬 コメントで却下・修正指示」と記載する
-2. Issue作成後、以下でLINE通知を送る:
+2. Issue作成後、以下でTelegram通知を送る（承認/却下ボタン付き）:
    ```bash
-   node scripts/lib/notify.mjs "【承認待ち】[タスク概要] → Issue #番号: https://github.com/sbilxxxx/start_solopreneur/issues/番号"
+   node scripts/lib/notify.mjs "【承認待ち】\n[タスク概要]\nhttps://github.com/sbilxxxx/start_solopreneur/issues/番号" --issue 番号
    ```
 
 ### Step 1: 開発タスクの確認

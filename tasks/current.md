@@ -79,21 +79,18 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 **セットアップ（手動）:**
 - [ ] **ANTHROPIC_API_KEY を .env.local に設定**
-- [ ] **LINE Notify トークンを取得して .env.local に設定**
-  - 取得先: https://notify-bot.line.me/my/（「トークンを発行する」）
-  - 設定キー: `LINE_NOTIFY_TOKEN`
+- [ ] **Telegram Bot セットアップ**
+  1. Telegramで `@BotFather` に `/newbot` → `TELEGRAM_BOT_TOKEN` 取得
+  2. ボットにメッセージ送信 → `https://api.telegram.org/bot{TOKEN}/getUpdates` で `TELEGRAM_CHAT_ID` 取得
+  3. ランダム文字列を `TELEGRAM_WEBHOOK_SECRET` に設定
+  4. `npm run telegram:test` で通知確認
+  5. Vercelにデプロイ後 `npm run telegram:setup` でWebhook登録
 
 **動作確認:**
-- [ ] **LINE通知テスト**: `node scripts/lib/notify.mjs "テスト通知"`
+- [ ] **Telegram通知テスト**: `npm run telegram:test`
 - [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
 - [ ] **manager-agent 初回テスト実行**（`npm run agents:manager`）
 - [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
-
-**将来のTODO（Phase 6候補）:**
-- [ ] **LINE Messaging API 実装**（双方向通知 — LINEから直接返信できる構成）
-  - LINE DevelopersでMessaging APIチャンネル作成
-  - Webhookエンドポイント `/api/line-webhook` を実装
-  - ユーザーの返信をGitHub Issue closeに変換するロジック
 
 ---
 

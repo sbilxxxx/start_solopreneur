@@ -9,7 +9,9 @@
     "lint": "eslint",
     "agents:manager": "node scripts/agents/run-manager.mjs",
     "agents:editorial": "node scripts/agents/run-editorial.mjs",
-    "agents:marketing": "node scripts/agents/run-marketing.mjs"
+    "agents:marketing": "node scripts/agents/run-marketing.mjs",
+    "telegram:setup": "node scripts/lib/setup-telegram-webhook.mjs",
+    "telegram:test": "node scripts/lib/notify.mjs 'テスト通知'"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.81",
