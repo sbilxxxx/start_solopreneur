@@ -53,7 +53,13 @@
       "agent": "instruction",
       "usd": 0.15,
       "note": "[instruction] クロスポスト機能の実装を進めてください"
+    },
+    {
+      "date": "2026-03-21",
+      "agent": "instruction",
+      "usd": 0.15,
+      "note": "[instruction] テレグラムから指示しても２回に一回、タスクが実行されません。改善してください。"
     }
   ],
-  "totalUsd": 1.29
+  "totalUsd": 1.44
 }
