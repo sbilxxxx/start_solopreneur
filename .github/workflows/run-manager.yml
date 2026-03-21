@@ -10,6 +10,9 @@ on:
 jobs:
   run-manager:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
     timeout-minutes: 20
 
     steps:

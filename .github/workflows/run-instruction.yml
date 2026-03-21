@@ -10,6 +10,9 @@ jobs:
       (github.event.action == 'opened' && contains(toJSON(github.event.issue.labels), '"instruction"')) ||
       (github.event.action == 'labeled' && (github.event.label.name == 'instruction' || github.event.label.name == 'urgent'))
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
     timeout-minutes: 15
 
     steps:
