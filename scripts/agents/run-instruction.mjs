@@ -54,11 +54,29 @@ async function commentAndClose(issueNumber, comment) {
   });
 }
 
+/**
+ * Issue本文から複雑度タグを読み取り、適切な実行パラメータを返す
+ *  [complexity: simple]  → 小変更（テキスト・色・スタイル等）
+ *  [complexity: complex] → 大きな実装・機能追加
+ *  タグなし              → 中程度（デフォルト）
+ */
+function resolveSettings(issueBody) {
+  if (issueBody?.includes("[complexity: simple]")) {
+    return { maxTurns: 6, maxBudgetUsd: 0.08, label: "simple" };
+  }
+  if (issueBody?.includes("[complexity: complex]")) {
+    return { maxTurns: 15, maxBudgetUsd: 0.25, label: "complex" };
+  }
+  return { maxTurns: 10, maxBudgetUsd: 0.15, label: "medium" };
+}
+
 async function executeInstruction(issue) {
   const { number, title, body } = issue;
   const instruction = body || title;
+  const settings = resolveSettings(body);
 
   console.log(`\n[Instruction] Issue #${number}: ${title}`);
+  console.log(`[Instruction] 複雑度: ${settings.label} (maxTurns=${settings.maxTurns}, budget=$${settings.maxBudgetUsd})`);
   console.log("[Instruction] 実行中...\n");
 
   // 実行中をTelegramに通知
@@ -76,13 +94,20 @@ ${instruction}
 
 ## 制約
 - 本番デプロイ・課金・外部サービスへの直接操作はしない
-- 完了したら必ず「## 実行結果」として何をしたか箇条書きで詳細に報告すること（例: 変更したファイル・追加した機能・修正内容など）`,
+- 完了したら必ず「## 実行結果」として何をしたか箇条書きで詳細に報告すること（例: 変更したファイル・追加した機能・修正内容など）
+
+## 効率化ルール（厳守）
+- 必要なファイルだけ読む（不要なグローバル探索は禁止）
+- 同じファイルを2回以上読まない
+- Globで対象を絞ってからReadする
+- 変更は要件を満たす最小限にする
+- 結果報告は簡潔に（箇条書き3〜5行が目標）`,
       options: {
         cwd: process.cwd(),
         allowedTools: ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
         permissionMode: "acceptEdits",
-        maxTurns: 20,
-        maxBudgetUsd: 0.3,
+        maxTurns: settings.maxTurns,
+        maxBudgetUsd: settings.maxBudgetUsd,
       },
     })) {
       // アシスタントのテキストブロックを収集（フォールバック用）
