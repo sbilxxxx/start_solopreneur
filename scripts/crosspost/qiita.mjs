@@ -80,24 +80,20 @@ export async function verifyQiitaToken() {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const slug = process.argv[2];
 
-  // --verify オプション: トークン検証のみ
   if (slug === "--verify") {
+    // トークン検証のみ
     verifyQiitaToken()
       .then((id) => console.log(`[Qiita] ✅ トークン有効 / ユーザー: ${id}`))
       .catch((e) => { console.error("[Qiita] ❌", e.message); process.exit(1); });
-    return;
-  }
-
-  if (!slug) {
+  } else if (!slug) {
     console.error("使い方: node scripts/crosspost/qiita.mjs <slug>");
     console.error("      node scripts/crosspost/qiita.mjs --verify  # トークン確認");
     process.exit(1);
+  } else {
+    const filePath = resolve(__dirname, `../../content/blog/${slug}.mdx`);
+    console.log(`[Qiita] 投稿中: ${slug}`);
+    postToQiita(filePath)
+      .then(({ url }) => console.log(`[Qiita] 投稿完了: ${url}`))
+      .catch((e) => { console.error("[Qiita] エラー:", e.message); process.exit(1); });
   }
-
-  const filePath = resolve(__dirname, `../../content/blog/${slug}.mdx`);
-  console.log(`[Qiita] 投稿中: ${slug}`);
-
-  postToQiita(filePath)
-    .then(({ url }) => console.log(`[Qiita] 投稿完了: ${url}`))
-    .catch((e) => { console.error("[Qiita] エラー:", e.message); process.exit(1); });
 }
