@@ -30,6 +30,16 @@ const API_BASE = "https://qiita.com/api/v2";
 export async function postToQiita(filePath, { private: isPrivate = false } = {}) {
   if (!QIITA_TOKEN) throw new Error("QIITA_TOKEN が未設定です");
 
+  // トークン有効性を事前確認
+  const meRes = await fetch(`${API_BASE}/authenticated_user`, {
+    headers: { Authorization: `Bearer ${QIITA_TOKEN.trim()}`, Accept: "application/json" },
+  });
+  if (!meRes.ok) {
+    throw new Error(`QiitaトークンNG (${meRes.status}) — GitHubSecretsの値を確認してください`);
+  }
+  const me = await meRes.json();
+  console.log(`[Qiita] トークン確認OK / ユーザー: ${me.id}`);
+
   const { frontmatter, markdown } = parseMdx(filePath);
 
   // 記事本文: サイトURLへの導線を追加
