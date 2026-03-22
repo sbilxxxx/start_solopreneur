@@ -5,6 +5,15 @@ on:
     branches: [main]
     paths:
       - 'content/blog/**.mdx'
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: '記事スラッグ（例: 2026-03-20-how-to-start-claude-code）'
+        required: true
+      platforms:
+        description: '投稿先（カンマ区切り: qiita,zenn）'
+        required: false
+        default: 'qiita,zenn'
 
 jobs:
   crosspost:
@@ -35,13 +44,18 @@ jobs:
           echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
           echo "検出された新規記事: $NEW_FILES"
 
-      - name: Cross-post articles
-        if: steps.detect.outputs.new_files != ''
+      - name: Cross-post articles (auto)
+        if: github.event_name == 'push' && steps.detect.outputs.new_files != ''
         run: |
           for slug in ${{ steps.detect.outputs.new_files }}; do
             echo "=== クロス発信: $slug ==="
-            node scripts/crosspost/crosspost.mjs "$slug" || true
+            node scripts/crosspost/crosspost.mjs "$slug" --platforms=${{ github.event.inputs.platforms || 'qiita,zenn' }} || true
           done
+
+      - name: Cross-post articles (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          node scripts/crosspost/crosspost.mjs "${{ github.event.inputs.slug }}" --platforms=${{ github.event.inputs.platforms }}
         env:
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
           MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
