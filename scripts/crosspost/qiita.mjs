@@ -50,7 +50,7 @@ export async function postToQiita(filePath, { private: isPrivate = false } = {})
   const res = await fetch(`${API_BASE}/items`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${QIITA_TOKEN}`,
+      Authorization: `Bearer ${QIITA_TOKEN.trim()}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -65,11 +65,32 @@ export async function postToQiita(filePath, { private: isPrivate = false } = {})
   return { url: data.url, id: data.id };
 }
 
+// トークン検証
+export async function verifyQiitaToken() {
+  if (!QIITA_TOKEN) throw new Error("QIITA_TOKEN が未設定です");
+  const res = await fetch(`${API_BASE}/authenticated_user`, {
+    headers: { Authorization: `Bearer ${QIITA_TOKEN.trim()}` },
+  });
+  if (!res.ok) throw new Error(`トークン検証失敗 (${res.status})`);
+  const data = await res.json();
+  return data.id;
+}
+
 // 直接実行
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const slug = process.argv[2];
+
+  // --verify オプション: トークン検証のみ
+  if (slug === "--verify") {
+    verifyQiitaToken()
+      .then((id) => console.log(`[Qiita] ✅ トークン有効 / ユーザー: ${id}`))
+      .catch((e) => { console.error("[Qiita] ❌", e.message); process.exit(1); });
+    return;
+  }
+
   if (!slug) {
     console.error("使い方: node scripts/crosspost/qiita.mjs <slug>");
+    console.error("      node scripts/crosspost/qiita.mjs --verify  # トークン確認");
     process.exit(1);
   }
 
