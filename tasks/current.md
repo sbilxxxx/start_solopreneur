@@ -68,6 +68,50 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ---
 
+### 【J】コスト最適化（月$50予算設計）
+
+**背景:** 1日$5超の消費が発生。月額$50を上限として設計を見直す。
+**方針:** `notes/decisions/2026-03-22-cost-design.md` に詳細記録する。
+
+#### Step 1: 消費元の特定（先決）
+- [ ] `logs/cost-log.json` を確認し、どのスクリプト・いつ・いくら消費したか把握する
+- [ ] GitHub Actions の実行履歴を確認し、昨日何回Actionsが走ったか確認する
+
+#### Step 2: モデル切り替え（最大コスト削減効果）
+- [ ] **manager-agent を Haiku に変更**（`run-manager.mjs` のモデル指定）
+- [ ] **instruction [simple] を Haiku に変更**（`run-instruction.mjs`）
+- [ ] editorial / instruction [complex] は Sonnet 維持
+
+#### Step 3: 実行設計の見直し
+- [ ] **manager-agent を平日のみ実行に変更**（`run-manager.yml` の cron を月〜金に）
+- [ ] **manager-agent のターン数を 30→15 に削減**
+- [ ] **pre-check 追加**: TODOが空 + Issueなし → LLMを呼ばず即終了
+
+#### Step 4: 予算上限の設定
+- [ ] 月次コスト上限を `logs/cost-log.json` で追跡できるようにする
+- [ ] $50/月ペースを超えたら Telegram 通知を出す仕組みを追加
+
+---
+
+### 【I】システム構成理解シリーズ（記事執筆）
+
+Phase 5の開発を進めながら、自分の理解整理も兼ねて書く。
+詳細計画 → `notes/decisions/2026-03-20-content-roadmap.md` のPhase 5セクション
+
+- [ ] **記事①「AIエージェントで一人会社を動かす仕組み、全部見せます」**
+  - 前提: システム全体像の整理（今がタイミング）
+  - 内容: 6体のエージェント・4系統のトリガー・フローを図解
+- [ ] **記事②「GitHub Actionsとは何か——PCがないと動かないを卒業した話」**
+  - 前提: Task Scheduler → GitHub Actions 移行完了後
+  - 内容: 仕組みの説明 + 移行の実録
+- [ ] **記事③「自律化システムを作ってわかった3つの落とし穴」**
+  - 前提: 文字化け修正・二重実行防止・構造化ログの安定化対応完了後
+  - 内容: Codex指摘ベースの失敗談・教訓
+- [ ] **記事④「ログを構造化したら、何が見えるようになったか」**
+  - 前提: 構造化ログ（logs/runs/*.json）実装完了後
+
+---
+
 ### 【H】クロスコンテンツ発信 + 英語対応（新規）
 
 - [x] **クロス発信システム開発**
