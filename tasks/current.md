@@ -1,6 +1,6 @@
 # 現在のスプリント — Phase 5
 
-最終更新: 2026-03-21
+最終更新: 2026-03-22
 
 ---
 
@@ -53,7 +53,7 @@ Claude Code では完結しない操作。
 
 ### 【B】マーケ運用
 
-X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行。
+X投稿は GitHub Actions (`tweet-schedule.yml`) で自動実行（月8時/水12時/金19時 JST）。
 **個別の投稿状態はこのファイルで管理しない。**
 
 - X投稿の状態 → `marketing/sns/YYYY-MM.md` のアーカイブ欄を確認（正の情報源）
@@ -63,8 +63,16 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【G】Phase 5 — 自律化（開発）
 
-- [ ] **チャットUI動作確認**（`npm run dev` → localhost:3000）
+- [x] **チャットUI動作確認** — ChatWidget は layout.tsx に組み込み済み。APIルートも `/api/chat/route.ts` で実装済み。
 - [ ] **editorial pipeline テスト**（`npm run agents:editorial "トピック名"`）
+
+### 【K】Task Scheduler → GitHub Actions 移行 ✅
+
+- [x] **tweet-schedule.yml 作成** — 月8時/水12時/金19時 JST に schedule-tweet.mjs を実行
+- [x] **monitor.yml 作成** — 毎日8:30 JST に monitor.mjs を実行
+- [x] **GitHub Secrets に X API キーを登録**（`X_API_KEY` / `X_API_SECRET` / `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET`）
+- [ ] **Windows Task Scheduler の旧タスクを無効化**（手動・二重実行防止）
+  - タスクスケジューラ → schedule-tweet / monitor → 無効化
 
 ---
 
@@ -74,22 +82,22 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 **方針:** `notes/decisions/2026-03-22-cost-design.md` に詳細記録する。
 
 #### Step 1: 消費元の特定（先決）
-- [ ] `logs/cost-log.json` を確認し、どのスクリプト・いつ・いくら消費したか把握する
-- [ ] GitHub Actions の実行履歴を確認し、昨日何回Actionsが走ったか確認する
+- [x] `logs/cost-log.json` を確認 — 2026-03-21: instruction×15=$2.25, manager×3=$0.39, 合計$2.64
+- [x] GitHub Actions 実行履歴確認済み（logs/actions-log/ を参照）
 
 #### Step 2: モデル切り替え（最大コスト削減効果）
-- [ ] **manager-agent を Haiku に変更**（`run-manager.mjs` のモデル指定）
-- [ ] **instruction [simple] を Haiku に変更**（`run-instruction.mjs`）
-- [ ] editorial / instruction [complex] は Sonnet 維持
+- [x] **manager-agent を Haiku に変更**（`run-manager.mjs` に `model: "claude-haiku-4-5-20251001"` 追加）
+- [x] **instruction [simple] を Haiku に変更**（`run-instruction.mjs` の `resolveSettings()` に `model` 追加）
+- [x] editorial / instruction [complex] は Sonnet 維持
 
 #### Step 3: 実行設計の見直し
-- [ ] **manager-agent を平日のみ実行に変更**（`run-manager.yml` の cron を月〜金に）
-- [ ] **manager-agent のターン数を 30→15 に削減**
-- [ ] **pre-check 追加**: TODOが空 + Issueなし → LLMを呼ばず即終了
+- [x] **manager-agent を平日のみ実行に変更**（`run-manager.yml` の cron: `'0 0 * * 1-5'`）
+- [x] **manager-agent のターン数を 30→15 に削減**
+- [x] **pre-check 追加**: TODOが空 + Issueなし → LLMを呼ばず即終了
 
 #### Step 4: 予算上限の設定
-- [ ] 月次コスト上限を `logs/cost-log.json` で追跡できるようにする
-- [ ] $50/月ペースを超えたら Telegram 通知を出す仕組みを追加
+- [x] 月次コスト上限チェック実装済み（$40超過: manager停止 / $45超過: instruction停止 + Telegram警告）
+- [x] 詳細設計を `notes/decisions/2026-03-22-cost-design.md` に記録
 
 ---
 
@@ -98,9 +106,7 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 Phase 5の開発を進めながら、自分の理解整理も兼ねて書く。
 詳細計画 → `notes/decisions/2026-03-20-content-roadmap.md` のPhase 5セクション
 
-- [ ] **記事①「AIエージェントで一人会社を動かす仕組み、全部見せます」**
-  - 前提: システム全体像の整理（今がタイミング）
-  - 内容: 6体のエージェント・4系統のトリガー・フローを図解
+- [x] **記事①「AIエージェントで一人会社を動かす仕組み、全部見せます」** — `content/blog/2026-03-22-agent-system-overview.mdx` に公開済み
 - [ ] **記事②「GitHub Actionsとは何か——PCがないと動かないを卒業した話」**
   - 前提: Task Scheduler → GitHub Actions 移行完了後
   - 内容: 仕組みの説明 + 移行の実録

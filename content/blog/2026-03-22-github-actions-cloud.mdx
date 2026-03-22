@@ -1,0 +1,306 @@
+---
+title: GitHub Actionsとは何か——「PCがないと動かない」を卒業した話
+titleEn: What Is GitHub Actions — Graduating from "It Only Works When My PC Is On"
+date: "2026-03-22"
+category: engineering
+tags: [GitHub Actions, 自動化, Claude Code, ソロアントレ, クラウド]
+summary: AIエージェントで一人会社を動かしていたら、「PCが落ちていると止まる」問題に直面した。GitHub Actionsの仕組みを理解して、PC依存をなくした記録。
+summaryEn: Running a one-person company with AI agents, I hit the problem of "everything stops when my PC is off." Here's how I understood GitHub Actions and eliminated that dependency.
+---
+
+旅先でスマホを開いて、Xの投稿が止まっていることに気づいた。
+
+確認したら、ノートPCのスリープ中にタスクスケジューラが起動できなかっただけだった。たったそれだけで、「自動化されているはずの仕組み」が止まっていた。
+
+この記事でわかること：
+- GitHub Actionsがどういう仕組みで動くか
+- スマホや別のPCから開発指示を出す方法
+- ローカルPCへの依存をなくす方法
+
+---
+
+## 問題：自動化がPCに依存していた
+
+前回の記事（[AIエージェントで一人会社を動かす仕組み、全部見せます](/blog/2026-03-22-agent-system-overview)）で書いたように、このシステムの自動化には2種類ある。
+
+**PCがなくても動くもの：**
+- AIエージェントによる開発（GitHub Actions）
+- Telegramからの指示受付（Vercel）
+- サイト本体（Vercel）
+
+**PCが起動していないと止まるもの：**
+- X投稿（Windows タスクスケジューラ）
+- プロジェクト監視（Windows タスクスケジューラ）
+
+タスクスケジューラというのは、Windowsに標準で入っている「定刻になったらこのスクリプトを実行する」機能のことだ。便利なんだけど、当然PCが起動していないと動かない。
+
+「PCがないと動かない自動化」は、厳密には自動化ではない、という気がしてきた。
+
+---
+
+## GitHub Actionsとは何か
+
+一言で言うと、**「GitHubのサーバーが、指定したタイミングで処理を代わりに実行してくれる仕組み」**だ。
+
+自分のPCは関係ない。GitHubのクラウドサーバーが動いてくれる。
+
+### 設定の仕方
+
+リポジトリの `.github/workflows/` というフォルダにYAMLファイルを置くだけで有効になる。
+
+```yaml
+# .github/workflows/hello.yml
+name: Hello World
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 毎日UTC 0時（JST 9時）に実行
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest  # Ubuntuのサーバーを用意して
+    steps:
+      - name: 挨拶する
+        run: echo "おはようございます"
+```
+
+このファイルをGitHubにpushするだけで、毎朝9時にGitHubのサーバーが「おはようございます」と言う。自分のPCは何もしていない。
+
+### 実行の流れ
+
+```
+指定したタイミング（定刻 or イベント）
+        ↓
+GitHubが自分のサーバー（Ubuntu等）を起動
+        ↓
+リポジトリのコードをダウンロード
+        ↓
+YAMLに書いた手順を順番に実行
+        ↓
+終了（サーバーは破棄される）
+```
+
+毎回クリーンな環境から始まる。前の実行結果は引き継がれない。
+
+### トリガーの種類
+
+「いつ実行するか」は自由に決められる。
+
+```yaml
+on:
+  # 定刻実行（cron形式）
+  schedule:
+    - cron: '0 0 * * 1-5'  # 平日UTC 0時（JST 9時）
+
+  # GitHubのイベント発生時
+  issues:
+    types: [labeled]        # Issueにラベルがついたとき
+
+  push:
+    paths:
+      - 'content/blog/**'   # 特定のファイルが変更されたとき
+
+  # GitHub UIから手動実行
+  workflow_dispatch:
+```
+
+このプロジェクトでは4種類すべてを使っている。
+
+---
+
+## このシステムでのGitHub Actionsの使い方
+
+具体的に何をやっているか見せると、理解しやすいと思う。
+
+### パターン①：毎朝9時にmanager-agentを起動する
+
+```yaml
+# .github/workflows/run-manager.yml
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'  # 平日のみ
+
+jobs:
+  run-manager:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 依存パッケージをインストール
+        run: npm ci
+
+      - name: manager-agentを実行
+        run: node scripts/agents/run-manager.mjs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+```
+
+GitHubのサーバーがNode.jsをインストールして、スクリプトを実行して、終わったらサーバーを破棄する。自分のPCは何もしていない。
+
+### パターン②：IssueにラベルをつけたらAIが開発する
+
+```yaml
+# .github/workflows/run-instruction.yml
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  run-instruction:
+    runs-on: ubuntu-latest
+    steps:
+      - name: instruction ラベルのときだけ実行
+        if: contains(github.event.label.name, 'instruction')
+        run: node scripts/agents/run-instruction.mjs
+```
+
+GitHubのIssueにラベルをつけた瞬間、このワークフローが自動で起動する。スマホのGitHubアプリからでもできる。
+
+---
+
+## スマホから開発指示を出す方法
+
+PC不要で指示を出す方法は3つある。
+
+### 方法①：Telegramから送る（最速）
+
+TelegramのボットにメッセージするだけでOK。
+
+```
+「指示: ヘッダーのロゴを左揃えに変えて」
+        ↓
+Vercel（常時稼働）がメッセージを受け取る
+        ↓
+GitHub Issueを自動作成 + instructionラベルを付与
+        ↓
+GitHub Actionsが自動起動
+        ↓
+AIがコードを修正・コミット
+        ↓
+「完了しました」とTelegramに通知
+```
+
+外出先でも、スマホを2タップするだけで開発指示が出せる。
+
+使えるコマンドはこんな感じだ：
+
+| Telegramに送るメッセージ | 何が起きるか |
+|------------------------|-----------|
+| `指示: 〇〇してほしい` | dev-agentがコードを実装 |
+| `記事 〇〇について` | editorial-agentが記事を執筆 |
+| `投稿補充` | marketing-agentがX投稿文を生成 |
+| `状況` | 今日のタスク・コスト状況を返信 |
+
+### 方法②：GitHubのIssueを作る（詳細な指示向け）
+
+ブラウザやGitHubアプリでIssueを作って、`instruction`ラベルをつける。
+
+```
+Issue タイトル: お問い合わせフォームを追加する
+Issue 本文:
+  - src/app/contact/ にページを作る
+  - Resend でメール送信
+  - バリデーションはzodで
+
+ラベル: instruction
+```
+
+Telegramより詳細な指示を書けるし、複数のファイルを参照させたいときに向いている。
+
+### 方法③：GitHub Actionsを手動で起動する
+
+GitHubのActionsタブを開いて「Run workflow」ボタンを押す。
+
+定刻を待てないときや、クロスポストを今すぐ実行したいときに使う。
+
+---
+
+## PC依存をなくす：Task Scheduler → GitHub Actionsへの移行
+
+タスクスケジューラで動いていたX投稿と監視を、GitHub Actionsに移す。
+
+### X投稿の移行
+
+```yaml
+# .github/workflows/schedule-tweet.yml
+name: X投稿スケジュール
+
+on:
+  schedule:
+    - cron: '59 22 * * 0'  # 月曜 8:00 JST (UTC-1換算)
+    - cron: '59 2 * * 2'   # 水曜 12:00 JST
+    - cron: '59 9 * * 4'   # 金曜 19:00 JST
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: node scripts/schedule-tweet.mjs
+        env:
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+```
+
+既存の `schedule-tweet.mjs` はそのまま使える。変わるのは「誰が実行するか」だけ——タスクスケジューラ（自分のPC）からGitHub（クラウド）に変わるだけだ。
+
+### 環境変数の扱い
+
+ローカルでは `.env.local` に書いていたAPIキーを、GitHub Secrets に移す。
+
+GitHubのリポジトリページ → Settings → Secrets and variables → Actions → 「New repository secret」
+
+ここに `TWITTER_API_KEY` などを登録すると、YAMLから `${{ secrets.TWITTER_API_KEY }}` で参照できる。コードには一切キーが入らない。
+
+---
+
+## 移行後の全体像
+
+```
+[スマホ / ブラウザ — どこからでも]
+        ↓
+  ┌─────┴──────────────┐
+  │                    │
+Telegram           GitHub Web
+  │                    │
+  ↓                    ↓
+Vercel          GitHub Actions
+(Webhook)        ┌──────────────────┐
+  │              │ 平日9時           │ manager-agent
+  ↓              │ Issueラベル付与時  │ dev-agent
+GitHub Issue作成 │ 月水金定刻        │ X投稿
+  ↓              │ 毎日9時           │ 監視・Issue作成
+GitHub Actions   │ 新記事push時      │ クロスポスト
+                 └──────────────────┘
+                         ↓
+                   Anthropic API
+                   X API
+                   GitHub API
+                   Telegram API
+```
+
+PCがゼロ。全処理がクラウドで完結する。
+
+---
+
+## まとめ
+
+GitHub Actionsは「GitHubのサーバーが処理を代わりにやってくれる仕組み」で、YAMLファイルを1つ置くだけで使い始められる。
+
+自分のプロジェクトでは、AIエージェントの実行・X投稿・監視・クロスポストをすべてGitHub Actionsに移した（移している途中だ）。おかげでスマホからTelegramで「指示: 〇〇して」と送るだけで、帰宅したら実装が終わっている——という状態に近づいてきた。
+
+「自動化」という言葉は、PCが起動していないと意味がない。クラウドに乗せてはじめて、本当の意味での自動化になるんだと思ってます。
+
+旅先でXが止まっていたあの日から、少し前に進めた気がする。
