@@ -71,8 +71,7 @@ X投稿は GitHub Actions (`tweet-schedule.yml`) で自動実行（月8時/水12
 - [x] **tweet-schedule.yml 作成** — 月8時/水12時/金19時 JST に schedule-tweet.mjs を実行
 - [x] **monitor.yml 作成** — 毎日8:30 JST に monitor.mjs を実行
 - [x] **GitHub Secrets に X API キーを登録**（`X_API_KEY` / `X_API_SECRET` / `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET`）
-- [ ] **Windows Task Scheduler の旧タスクを無効化**（手動・二重実行防止）
-  - タスクスケジューラ → schedule-tweet / monitor → 無効化
+- [x] **Windows Task Scheduler の旧タスク** — 既に存在しない（削除済み）
 
 ---
 

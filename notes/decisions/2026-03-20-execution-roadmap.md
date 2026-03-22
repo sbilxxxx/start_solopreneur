@@ -55,26 +55,51 @@
 
 ### Phase 5 🔄 — 高度自動化 + システム安定化
 
-**安定化（Codexレビューを受けて追加 — 2026-03-22）:**
-- 🔲 文字化け全修正（UI文言・Telegram文言・プロンプト）※最優先
+最終更新: 2026-03-22
+
+**コスト最適化 ✅（2026-03-22 完了）:**
+- ✅ manager-agent を Haiku モデルに変更
+- ✅ instruction [simple] を Haiku に変更
+- ✅ run-manager.yml cron を平日のみ（月〜金）に変更
+- ✅ pre-check 追加（タスクなし+Issueなし → LLM スキップ）
+- ✅ 月次 $40/$45 超過で自動停止 + Telegram 警告
+- ✅ SNS ストック検出バグ修正（`###` ヘッダー形式を正しくカウント）
+- 詳細: `notes/decisions/2026-03-22-cost-design.md`
+
+**安定化（次の優先作業）:**
+- ✅ **Task Scheduler → GitHub Actions 移行**（2026-03-22 完了）
+  - `tweet-schedule.yml`: 月8時/水12時/金19時 JST に自動投稿
+  - `monitor.yml`: 毎日8:30 JST に監視 → GitHub Issues 作成
+  - 必要な GitHub Secrets: `X_API_KEY` / `X_API_SECRET` / `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET`
 - 🔲 エージェント二重実行防止（ロックファイルまたは running ラベル付与）
 - 🔲 外部API共通クライアント（`src/lib/clients/` にretry/timeout/error handling集約）
   - 対象: Anthropic / X / Telegram / GitHub
 - 🔲 構造化ログ実装（`logs/runs/*.json` に run_id・duration_ms・estimated_cost・files_changed を記録）
 
+**コンテンツ:**
+- ✅ 記事①「AIエージェントで一人会社を動かす仕組み、全部見せます」公開
+- 🔲 記事②「GitHub Actionsとは何か」（GitHub Actions移行完了後）
+- 🔲 記事③「自律化システムを作ってわかった3つの落とし穴」（安定化完了後）
+- 🔲 記事④「ログを構造化したら、何が見えるようになったか」（構造化ログ実装後）
+
 **自律化:**
-- 🔲 Agent Teams 実験（複数セッションの並列協調）
-- 🔲 コンテンツ自動生成パイプライン
+- 🔲 editorial pipeline 実運用テスト（`npm run agents:editorial "トピック名"`）
 - 🔲 i18n 完成（next-intl・日英切り替え UI）
+- 🔲 コンテンツ自動生成パイプライン完成
 
 **RAG改善（記事が20本超えたら対応）:**
 - 🔲 RAG埋め込み化（content/blog更新時にembedding生成 → ベクトル近傍検索）
   - 現在のLLMベースRAGは記事数増加で遅延・コスト増加が予測される
 
-### Phase 6 🔲
-- Stripe 決済（有料記事・サブスクリプション）
-- Resend ニュースレター
-- 収益ダッシュボード（finance/ 連携）
+### Phase 6 🔲 — 収益化 + 資金管理
+
+**前提条件:** 月間PV 1,000 以上 or フォロワー 500 以上になったら着手
+
+- 🔲 Stripe 決済（有料記事・サブスクリプション）
+- 🔲 Resend ニュースレター配信
+- 🔲 収益ダッシュボード（finance/ 連携）
+- 🔲 開業届・事業口座分離（収益化の目処が立ったら）
+- 🔲 月次費用トラッキング（freee / MoneyForward）
 
 ---
 

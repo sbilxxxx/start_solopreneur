@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { getAllPosts } from "@/lib/posts";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import CategoryFilter from "./CategoryFilter";
 
 const categoryLabel: Record<string, string> = {
   engineering: "エンジニアリング",
@@ -16,8 +18,16 @@ const categoryColor: Record<string, string> = {
   marketing: "bg-purple-50 text-purple-700 border-purple-200",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+type Props = {
+  searchParams: Promise<{ category?: string }>;
+};
+
+export default async function BlogPage({ searchParams }: Props) {
+  const { category } = await searchParams;
+  const allPosts = getAllPosts();
+  const posts = category
+    ? allPosts.filter((p) => p.category === category)
+    : allPosts;
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950">
@@ -26,12 +36,18 @@ export default function BlogPage() {
       <main className="max-w-3xl mx-auto px-6 py-16">
         <p className="text-xs text-zinc-400 uppercase tracking-widest mb-3">Blog</p>
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">学びの記録</h1>
-        <p className="text-sm text-zinc-400 mb-12">
+        <p className="text-sm text-zinc-400 mb-10">
           AI × ソロアントレプレナーとしての実験・気づき・失敗を記録する。
         </p>
 
+        <Suspense>
+          <CategoryFilter current={category ?? ""} />
+        </Suspense>
+
         {posts.length === 0 ? (
-          <p className="text-sm text-zinc-400">記事を準備中です。</p>
+          <p className="text-sm text-zinc-400">
+            {category ? "このカテゴリーの記事はまだありません。" : "記事を準備中です。"}
+          </p>
         ) : (
           <div className="space-y-8">
             {posts.map((post) => (

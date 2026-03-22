@@ -13,7 +13,10 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { sendTelegram } from "../lib/notify.mjs";
-import { recordCost } from "../lib/cost-tracker.mjs";
+import { recordCost, getMonthlyTotal } from "../lib/cost-tracker.mjs";
+
+const MONTHLY_BUDGET_USD = 50;
+const SKIP_THRESHOLD_USD = 45; // $45 超過で実行スキップ
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 config({ path: resolve(__dirname, "../../.env.local") });
@@ -62,7 +65,7 @@ async function commentAndClose(issueNumber, comment) {
  */
 function resolveSettings(issueBody) {
   if (issueBody?.includes("[complexity: simple]")) {
-    return { maxTurns: 6, maxBudgetUsd: 0.08, label: "simple" };
+    return { maxTurns: 6, maxBudgetUsd: 0.08, label: "simple", model: "claude-haiku-4-5-20251001" };
   }
   if (issueBody?.includes("[complexity: complex]")) {
     return { maxTurns: 15, maxBudgetUsd: 0.25, label: "complex" };
@@ -77,6 +80,17 @@ async function executeInstruction(issue) {
 
   console.log(`\n[Instruction] Issue #${number}: ${title}`);
   console.log(`[Instruction] 複雑度: ${settings.label} (maxTurns=${settings.maxTurns}, budget=$${settings.maxBudgetUsd})`);
+
+  // 月次予算チェック
+  const { monthly } = getMonthlyTotal();
+  if (monthly >= SKIP_THRESHOLD_USD) {
+    const msg = `月次予算超過のため実行スキップ（今月: $${monthly.toFixed(3)} / $${MONTHLY_BUDGET_USD}）`;
+    await commentAndClose(number, `## ⚠️ 実行スキップ\n\n${msg}`);
+    await sendTelegram(`⚠️ <b>月次予算超過</b>\nIssue #${number} をスキップ\n今月: $${monthly.toFixed(3)} / $${MONTHLY_BUDGET_USD}`, "HTML");
+    console.log(`[Instruction] ${msg}`);
+    return;
+  }
+
   console.log("[Instruction] 実行中...\n");
 
   // 実行中をTelegramに通知
@@ -108,6 +122,7 @@ ${instruction}
         permissionMode: "bypassPermissions",
         maxTurns: settings.maxTurns,
         maxBudgetUsd: settings.maxBudgetUsd,
+        ...(settings.model ? { model: settings.model } : {}),
       },
     })) {
       // アシスタントのテキストブロックを収集（フォールバック用）

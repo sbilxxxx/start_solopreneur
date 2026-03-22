@@ -46,8 +46,8 @@ for await (const message of query({
       "Agent",
     ],
     permissionMode: "acceptEdits",
-    maxTurns: 60,
-    maxBudgetUsd: 1.5,
+    maxTurns: 40,
+    maxBudgetUsd: 1.0,
     agents: {
       "seo-checker": SUBAGENTS["seo-checker"],
       "content-reviewer": SUBAGENTS["content-reviewer"],
