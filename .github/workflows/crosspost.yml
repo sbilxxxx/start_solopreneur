@@ -1,0 +1,59 @@
+name: Cross-post New Articles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/blog/**.mdx'
+
+jobs:
+  crosspost:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # 前のコミットと比較するため
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect new articles
+        id: detect
+        run: |
+          # 前のコミットと比較して新規追加されたMDXファイルを検出
+          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'content/blog/*.mdx' | xargs -I{} basename {} .mdx | tr '\n' ' ')
+          echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
+          echo "検出された新規記事: $NEW_FILES"
+
+      - name: Cross-post articles
+        if: steps.detect.outputs.new_files != ''
+        run: |
+          for slug in ${{ steps.detect.outputs.new_files }}; do
+            echo "=== クロス発信: $slug ==="
+            node scripts/crosspost/crosspost.mjs "$slug" || true
+          done
+        env:
+          QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+          ZENN_GITHUB_TOKEN: ${{ secrets.ZENN_GITHUB_TOKEN }}
+          ZENN_GITHUB_REPO: ${{ secrets.ZENN_GITHUB_REPO }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Commit posted.json (if updated)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/crosspost/posted.json zenn-articles/ 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "auto: crosspost $(date +'%Y-%m-%d')"
+          git push || true

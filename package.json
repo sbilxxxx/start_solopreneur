@@ -13,7 +13,11 @@
     "agents:instruction": "node scripts/agents/run-instruction.mjs",
     "telegram:setup": "node scripts/lib/setup-telegram-webhook.mjs",
     "telegram:test": "node scripts/lib/notify.mjs 'テスト通知'",
-    "translate": "node scripts/translate-post.mjs"
+    "translate": "node scripts/translate-post.mjs",
+    "crosspost": "node scripts/crosspost/crosspost.mjs",
+    "crosspost:qiita": "node scripts/crosspost/qiita.mjs",
+    "crosspost:medium": "node scripts/crosspost/medium.mjs",
+    "crosspost:zenn": "node scripts/crosspost/zenn.mjs"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.81",
