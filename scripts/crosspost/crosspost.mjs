@@ -106,12 +106,12 @@ async function main() {
         url = res.url;
         console.log(`[Medium] ⚠️  ドラフト保存（手動公開が必要）`);
       } else if (platform === "zenn") {
+        const zennRewrite = !process.argv.includes("--no-rewrite");
         if (process.env.ZENN_GITHUB_REPO) {
-          const res = await pushToZennRepo(filePath);
+          const res = await pushToZennRepo(filePath, { rewrite: zennRewrite });
           url = res.url;
         } else {
-          // リポジトリ未設定の場合はローカル生成
-          const { outputPath } = saveZennFile(filePath);
+          const { outputPath } = await saveZennFile(filePath, { rewrite: zennRewrite });
           url = `file://${outputPath}`;
           console.log(`[Zenn] ⚠️  ZENN_GITHUB_REPO未設定 → ローカル生成: ${outputPath}`);
         }

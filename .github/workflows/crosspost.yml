@@ -57,6 +57,7 @@ jobs:
         run: |
           node scripts/crosspost/crosspost.mjs "${{ github.event.inputs.slug }}" --platforms=${{ github.event.inputs.platforms }}
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           QIITA_TOKEN: ${{ secrets.QIITA_TOKEN }}
           MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
           ZENN_GITHUB_TOKEN: ${{ secrets.ZENN_GITHUB_TOKEN }}
