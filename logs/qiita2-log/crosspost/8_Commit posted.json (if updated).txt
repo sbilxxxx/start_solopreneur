@@ -1,0 +1,9 @@
+﻿2026-03-22T05:20:15.2487131Z ##[group]Run git config user.name "github-actions[bot]"
+2026-03-22T05:20:15.2487607Z [36;1mgit config user.name "github-actions[bot]"[0m
+2026-03-22T05:20:15.2488054Z [36;1mgit config user.email "github-actions[bot]@users.noreply.github.com"[0m
+2026-03-22T05:20:15.2488610Z [36;1mgit add scripts/crosspost/posted.json zenn-articles/ 2>/dev/null || true[0m
+2026-03-22T05:20:15.2489184Z [36;1mgit diff --staged --quiet || git commit -m "auto: crosspost $(date +'%Y-%m-%d')"[0m
+2026-03-22T05:20:15.2489612Z [36;1mgit push || true[0m
+2026-03-22T05:20:15.2539917Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:20:15.2540217Z ##[endgroup]
+2026-03-22T05:20:15.4041052Z Everything up-to-date

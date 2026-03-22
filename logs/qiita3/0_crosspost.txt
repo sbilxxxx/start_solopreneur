@@ -1,0 +1,198 @@
+﻿2026-03-22T05:22:44.2299780Z Current runner version: '2.332.0'
+2026-03-22T05:22:44.2328416Z ##[group]Runner Image Provisioner
+2026-03-22T05:22:44.2330017Z Hosted Compute Agent
+2026-03-22T05:22:44.2331140Z Version: 20260213.493
+2026-03-22T05:22:44.2332202Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-03-22T05:22:44.2333414Z Build Date: 2026-02-13T00:28:41Z
+2026-03-22T05:22:44.2334797Z Worker ID: {55d4cc3e-17e0-4d3a-b1d3-618d3f9d7f02}
+2026-03-22T05:22:44.2336015Z Azure Region: eastus2
+2026-03-22T05:22:44.2336902Z ##[endgroup]
+2026-03-22T05:22:44.2338971Z ##[group]Operating System
+2026-03-22T05:22:44.2339907Z Ubuntu
+2026-03-22T05:22:44.2340502Z 24.04.3
+2026-03-22T05:22:44.2341030Z LTS
+2026-03-22T05:22:44.2341546Z ##[endgroup]
+2026-03-22T05:22:44.2342169Z ##[group]Runner Image
+2026-03-22T05:22:44.2342784Z Image: ubuntu-24.04
+2026-03-22T05:22:44.2343363Z Version: 20260309.50.1
+2026-03-22T05:22:44.2344709Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260309.50/images/ubuntu/Ubuntu2404-Readme.md
+2026-03-22T05:22:44.2346320Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260309.50
+2026-03-22T05:22:44.2347313Z ##[endgroup]
+2026-03-22T05:22:44.2348421Z ##[group]GITHUB_TOKEN Permissions
+2026-03-22T05:22:44.2350787Z Contents: write
+2026-03-22T05:22:44.2351403Z Metadata: read
+2026-03-22T05:22:44.2352049Z ##[endgroup]
+2026-03-22T05:22:44.2354159Z Secret source: Actions
+2026-03-22T05:22:44.2355258Z Prepare workflow directory
+2026-03-22T05:22:44.2807467Z Prepare all required actions
+2026-03-22T05:22:44.2862558Z Getting action download info
+2026-03-22T05:22:44.5681953Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-03-22T05:22:44.6999646Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-03-22T05:22:44.9340727Z Complete job name: crosspost
+2026-03-22T05:22:45.0073961Z ##[group]Run actions/checkout@v4
+2026-03-22T05:22:45.0074813Z with:
+2026-03-22T05:22:45.0075223Z   fetch-depth: 2
+2026-03-22T05:22:45.0075715Z   repository: sbilxxxx/start_solopreneur
+2026-03-22T05:22:45.0076426Z   token: ***
+2026-03-22T05:22:45.0076830Z   ssh-strict: true
+2026-03-22T05:22:45.0077253Z   ssh-user: git
+2026-03-22T05:22:45.0077686Z   persist-credentials: true
+2026-03-22T05:22:45.0078156Z   clean: true
+2026-03-22T05:22:45.0078593Z   sparse-checkout-cone-mode: true
+2026-03-22T05:22:45.0079101Z   fetch-tags: false
+2026-03-22T05:22:45.0079964Z   show-progress: true
+2026-03-22T05:22:45.0080416Z   lfs: false
+2026-03-22T05:22:45.0080802Z   submodules: false
+2026-03-22T05:22:45.0081239Z   set-safe-directory: true
+2026-03-22T05:22:45.0082018Z ##[endgroup]
+2026-03-22T05:22:45.1159606Z Syncing repository: sbilxxxx/start_solopreneur
+2026-03-22T05:22:45.1161478Z ##[group]Getting Git version info
+2026-03-22T05:22:45.1162381Z Working directory is '/home/runner/work/start_solopreneur/start_solopreneur'
+2026-03-22T05:22:45.1163472Z [command]/usr/bin/git version
+2026-03-22T05:22:45.1257966Z git version 2.53.0
+2026-03-22T05:22:45.1284012Z ##[endgroup]
+2026-03-22T05:22:45.1297628Z Temporarily overriding HOME='/home/runner/work/_temp/86136d37-09c7-4992-ae98-b668f839e1f2' before making global git config changes
+2026-03-22T05:22:45.1299127Z Adding repository directory to the temporary git global config as a safe directory
+2026-03-22T05:22:45.1310688Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/start_solopreneur/start_solopreneur
+2026-03-22T05:22:45.1352030Z Deleting the contents of '/home/runner/work/start_solopreneur/start_solopreneur'
+2026-03-22T05:22:45.1355434Z ##[group]Initializing the repository
+2026-03-22T05:22:45.1359589Z [command]/usr/bin/git init /home/runner/work/start_solopreneur/start_solopreneur
+2026-03-22T05:22:45.1493579Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-03-22T05:22:45.1494931Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-03-22T05:22:45.1495993Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-03-22T05:22:45.1497060Z hint: call:
+2026-03-22T05:22:45.1497490Z hint:
+2026-03-22T05:22:45.1498287Z hint: 	git config --global init.defaultBranch <name>
+2026-03-22T05:22:45.1499587Z hint:
+2026-03-22T05:22:45.1500449Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-03-22T05:22:45.1501501Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-03-22T05:22:45.1502374Z hint:
+2026-03-22T05:22:45.1502815Z hint: 	git branch -m <name>
+2026-03-22T05:22:45.1503329Z hint:
+2026-03-22T05:22:45.1504181Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-03-22T05:22:45.1505495Z Initialized empty Git repository in /home/runner/work/start_solopreneur/start_solopreneur/.git/
+2026-03-22T05:22:45.1510504Z [command]/usr/bin/git remote add origin https://github.com/sbilxxxx/start_solopreneur
+2026-03-22T05:22:45.1545312Z ##[endgroup]
+2026-03-22T05:22:45.1546366Z ##[group]Disabling automatic garbage collection
+2026-03-22T05:22:45.1549917Z [command]/usr/bin/git config --local gc.auto 0
+2026-03-22T05:22:45.1578145Z ##[endgroup]
+2026-03-22T05:22:45.1578845Z ##[group]Setting up auth
+2026-03-22T05:22:45.1585612Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-03-22T05:22:45.1616035Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-03-22T05:22:45.1982615Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-03-22T05:22:45.2018419Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-03-22T05:22:45.2268518Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-03-22T05:22:45.2302693Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-03-22T05:22:45.2570318Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-03-22T05:22:45.2607883Z ##[endgroup]
+2026-03-22T05:22:45.2609453Z ##[group]Fetching the repository
+2026-03-22T05:22:45.2618089Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +6dac8cc5680606b654f9452de4b456d84e8deb4c:refs/remotes/origin/main
+2026-03-22T05:22:45.4851504Z From https://github.com/sbilxxxx/start_solopreneur
+2026-03-22T05:22:45.4853008Z  * [new ref]         6dac8cc5680606b654f9452de4b456d84e8deb4c -> origin/main
+2026-03-22T05:22:45.4887724Z ##[endgroup]
+2026-03-22T05:22:45.4888628Z ##[group]Determining the checkout info
+2026-03-22T05:22:45.4890333Z ##[endgroup]
+2026-03-22T05:22:45.4895048Z [command]/usr/bin/git sparse-checkout disable
+2026-03-22T05:22:45.4937240Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-03-22T05:22:45.4963788Z ##[group]Checking out the ref
+2026-03-22T05:22:45.4967517Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-03-22T05:22:45.5273673Z Switched to a new branch 'main'
+2026-03-22T05:22:45.5275482Z branch 'main' set up to track 'origin/main'.
+2026-03-22T05:22:45.5278464Z ##[endgroup]
+2026-03-22T05:22:45.5281164Z [command]/usr/bin/git log -1 --format=%H
+2026-03-22T05:22:45.5298066Z 6dac8cc5680606b654f9452de4b456d84e8deb4c
+2026-03-22T05:22:45.5565748Z ##[group]Run actions/setup-node@v4
+2026-03-22T05:22:45.5566657Z with:
+2026-03-22T05:22:45.5567371Z   node-version: 20
+2026-03-22T05:22:45.5568116Z   cache: npm
+2026-03-22T05:22:45.5568836Z   always-auth: false
+2026-03-22T05:22:45.5569753Z   check-latest: false
+2026-03-22T05:22:45.5570700Z   token: ***
+2026-03-22T05:22:45.5571410Z ##[endgroup]
+2026-03-22T05:22:45.7334261Z Found in cache @ /opt/hostedtoolcache/node/20.20.1/x64
+2026-03-22T05:22:45.7363855Z ##[group]Environment details
+2026-03-22T05:22:48.0046218Z node: v20.20.1
+2026-03-22T05:22:48.0046662Z npm: 10.8.2
+2026-03-22T05:22:48.0046942Z yarn: 1.22.22
+2026-03-22T05:22:48.0047788Z ##[endgroup]
+2026-03-22T05:22:48.0070030Z [command]/opt/hostedtoolcache/node/20.20.1/x64/bin/npm config get cache
+2026-03-22T05:22:48.2833934Z /home/runner/.npm
+2026-03-22T05:22:48.3880418Z Cache hit for: node-cache-Linux-x64-npm-88667f150e2fbc6164729e526a246b2c5fb36934bc70ecbc81a2e445bbac9735
+2026-03-22T05:22:49.3172472Z Received 195040412 of 195040412 (100.0%), 212.1 MBs/sec
+2026-03-22T05:22:49.3173745Z Cache Size: ~186 MB (195040412 B)
+2026-03-22T05:22:49.3299954Z [command]/usr/bin/tar -xf /home/runner/work/_temp/bcbc7372-a155-49db-bef3-7e92977fe24a/cache.tzst -P -C /home/runner/work/start_solopreneur/start_solopreneur --use-compress-program unzstd
+2026-03-22T05:22:49.6730703Z Cache restored successfully
+2026-03-22T05:22:49.7125067Z Cache restored from key: node-cache-Linux-x64-npm-88667f150e2fbc6164729e526a246b2c5fb36934bc70ecbc81a2e445bbac9735
+2026-03-22T05:22:49.7281447Z ##[group]Run npm ci
+2026-03-22T05:22:49.7281785Z [36;1mnpm ci[0m
+2026-03-22T05:22:49.7343550Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:22:49.7343891Z ##[endgroup]
+2026-03-22T05:22:59.7463772Z 
+2026-03-22T05:22:59.7470411Z added 519 packages, and audited 520 packages in 10s
+2026-03-22T05:22:59.7470809Z 
+2026-03-22T05:22:59.7471023Z 260 packages are looking for funding
+2026-03-22T05:22:59.7471369Z   run `npm fund` for details
+2026-03-22T05:22:59.7480773Z 
+2026-03-22T05:22:59.7481202Z found 0 vulnerabilities
+2026-03-22T05:22:59.8139365Z ##[group]Run # 前のコミットと比較して新規追加されたMDXファイルを検出
+2026-03-22T05:22:59.8139988Z [36;1m# 前のコミットと比較して新規追加されたMDXファイルを検出[0m
+2026-03-22T05:22:59.8140628Z [36;1mNEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'content/blog/*.mdx' | xargs -I{} basename {} .mdx | tr '\n' ' ')[0m
+2026-03-22T05:22:59.8141305Z [36;1mecho "new_files=$NEW_FILES" >> $GITHUB_OUTPUT[0m
+2026-03-22T05:22:59.8141669Z [36;1mecho "検出された新規記事: $NEW_FILES"[0m
+2026-03-22T05:22:59.8195514Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:22:59.8195796Z ##[endgroup]
+2026-03-22T05:22:59.8297430Z 検出された新規記事: 
+2026-03-22T05:22:59.8385508Z ##[group]Run node scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita
+2026-03-22T05:22:59.8386288Z [36;1mnode scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita[0m
+2026-03-22T05:22:59.8432093Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:22:59.8432349Z env:
+2026-03-22T05:22:59.8433034Z   ANTHROPIC_API_KEY: ***
+2026-03-22T05:22:59.8433357Z   QIITA_TOKEN: ***
+2026-03-22T05:22:59.8433563Z   MEDIUM_TOKEN: 
+2026-03-22T05:22:59.8433903Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T05:22:59.8434313Z   ZENN_GITHUB_REPO: ***
+2026-03-22T05:22:59.8434838Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T05:22:59.8435092Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T05:22:59.8435309Z ##[endgroup]
+2026-03-22T05:22:59.9423284Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2026-03-22T05:22:59.9428149Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2026-03-22T05:22:59.9433175Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+2026-03-22T05:22:59.9434967Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+2026-03-22T05:22:59.9436565Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  enable debug logging with { debug: true }
+2026-03-22T05:22:59.9437763Z 
+2026-03-22T05:22:59.9438260Z [Crosspost] 対象記事: 2026-03-20-how-to-start-claude-code
+2026-03-22T05:22:59.9439011Z [Crosspost] プラットフォーム: qiita
+2026-03-22T05:22:59.9440080Z 
+2026-03-22T05:22:59.9440331Z [qiita] 投稿中...
+2026-03-22T05:23:00.6787894Z [Qiita] トークン確認OK / ユーザー: bensolopreneur
+2026-03-22T05:23:01.5527520Z [qiita] ❌ エラー: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T05:23:01.5528405Z 
+2026-03-22T05:23:01.5528593Z === クロス発信結果 ===
+2026-03-22T05:23:01.5530844Z ❌ qiita: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T05:23:01.5621298Z ##[group]Run git config user.name "github-actions[bot]"
+2026-03-22T05:23:01.5621725Z [36;1mgit config user.name "github-actions[bot]"[0m
+2026-03-22T05:23:01.5622154Z [36;1mgit config user.email "github-actions[bot]@users.noreply.github.com"[0m
+2026-03-22T05:23:01.5622684Z [36;1mgit add scripts/crosspost/posted.json zenn-articles/ 2>/dev/null || true[0m
+2026-03-22T05:23:01.5623238Z [36;1mgit diff --staged --quiet || git commit -m "auto: crosspost $(date +'%Y-%m-%d')"[0m
+2026-03-22T05:23:01.5623674Z [36;1mgit push || true[0m
+2026-03-22T05:23:01.5673238Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:23:01.5673500Z ##[endgroup]
+2026-03-22T05:23:01.6988455Z Everything up-to-date
+2026-03-22T05:23:01.7081207Z Post job cleanup.
+2026-03-22T05:23:01.8617132Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-88667f150e2fbc6164729e526a246b2c5fb36934bc70ecbc81a2e445bbac9735, not saving cache.
+2026-03-22T05:23:01.8745755Z Post job cleanup.
+2026-03-22T05:23:01.9687758Z [command]/usr/bin/git version
+2026-03-22T05:23:01.9724649Z git version 2.53.0
+2026-03-22T05:23:01.9769057Z Temporarily overriding HOME='/home/runner/work/_temp/c2ac2125-3c88-4c4a-92d5-e05df20e7d3d' before making global git config changes
+2026-03-22T05:23:01.9770923Z Adding repository directory to the temporary git global config as a safe directory
+2026-03-22T05:23:01.9775976Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/start_solopreneur/start_solopreneur
+2026-03-22T05:23:01.9812836Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-03-22T05:23:01.9847756Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-03-22T05:23:02.0089394Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-03-22T05:23:02.0111248Z http.https://github.com/.extraheader
+2026-03-22T05:23:02.0124280Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-03-22T05:23:02.0156112Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-03-22T05:23:02.0390109Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-03-22T05:23:02.0422375Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-03-22T05:23:02.0774989Z Cleaning up orphan processes
+2026-03-22T05:23:02.1089806Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-node@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,26 @@
+﻿2026-03-22T05:18:41.5156929Z ##[group]Run node scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita
+2026-03-22T05:18:41.5157745Z [36;1mnode scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita[0m
+2026-03-22T05:18:41.5213795Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:18:41.5214076Z env:
+2026-03-22T05:18:41.5214771Z   ANTHROPIC_API_KEY: ***
+2026-03-22T05:18:41.5215100Z   QIITA_TOKEN: ***
+2026-03-22T05:18:41.5215346Z   MEDIUM_TOKEN: 
+2026-03-22T05:18:41.5215720Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T05:18:41.5216008Z   ZENN_GITHUB_REPO: ***
+2026-03-22T05:18:41.5216363Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T05:18:41.5216628Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T05:18:41.5216869Z ##[endgroup]
+2026-03-22T05:18:41.6288293Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🛡️ auth for agents: https://vestauth.com
+2026-03-22T05:18:41.6293770Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2026-03-22T05:18:41.6299316Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+2026-03-22T05:18:41.6301106Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🛡️ auth for agents: https://vestauth.com
+2026-03-22T05:18:41.6303244Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+2026-03-22T05:18:41.6305762Z 
+2026-03-22T05:18:41.6306434Z [Crosspost] 対象記事: 2026-03-20-how-to-start-claude-code
+2026-03-22T05:18:41.6307264Z [Crosspost] プラットフォーム: qiita
+2026-03-22T05:18:41.6307828Z 
+2026-03-22T05:18:41.6308192Z [qiita] 投稿中...
+2026-03-22T05:18:42.3163594Z [qiita] ❌ エラー: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T05:18:42.3164908Z 
+2026-03-22T05:18:42.3165254Z === クロス発信結果 ===
+2026-03-22T05:18:42.3166194Z ❌ qiita: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}

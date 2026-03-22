@@ -1,0 +1,26 @@
+﻿2026-03-22T05:20:14.0167035Z ##[group]Run node scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita
+2026-03-22T05:20:14.0167914Z [36;1mnode scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita[0m
+2026-03-22T05:20:14.0220310Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:20:14.0220633Z env:
+2026-03-22T05:20:14.0221660Z   ANTHROPIC_API_KEY: ***
+2026-03-22T05:20:14.0221999Z   QIITA_TOKEN: ***
+2026-03-22T05:20:14.0222208Z   MEDIUM_TOKEN: 
+2026-03-22T05:20:14.0222649Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T05:20:14.0222941Z   ZENN_GITHUB_REPO: ***
+2026-03-22T05:20:14.0223278Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T05:20:14.0223802Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T05:20:14.0224028Z ##[endgroup]
+2026-03-22T05:20:14.1269239Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+2026-03-22T05:20:14.1275043Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+2026-03-22T05:20:14.1281902Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+2026-03-22T05:20:14.1283975Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  suppress all logs with { quiet: true }
+2026-03-22T05:20:14.1285767Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  override existing env vars with { override: true }
+2026-03-22T05:20:14.1288717Z 
+2026-03-22T05:20:14.1289342Z [Crosspost] 対象記事: 2026-03-20-how-to-start-claude-code
+2026-03-22T05:20:14.1290177Z [Crosspost] プラットフォーム: qiita
+2026-03-22T05:20:14.1290588Z 
+2026-03-22T05:20:14.1291001Z [qiita] 投稿中...
+2026-03-22T05:20:15.1590545Z [qiita] ❌ エラー: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T05:20:15.1593048Z 
+2026-03-22T05:20:15.1594332Z === クロス発信結果 ===
+2026-03-22T05:20:15.1595230Z ❌ qiita: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}

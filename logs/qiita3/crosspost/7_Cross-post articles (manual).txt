@@ -1,0 +1,27 @@
+﻿2026-03-22T05:22:59.8385497Z ##[group]Run node scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita
+2026-03-22T05:22:59.8386285Z [36;1mnode scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita[0m
+2026-03-22T05:22:59.8432087Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:22:59.8432346Z env:
+2026-03-22T05:22:59.8433030Z   ANTHROPIC_API_KEY: ***
+2026-03-22T05:22:59.8433354Z   QIITA_TOKEN: ***
+2026-03-22T05:22:59.8433561Z   MEDIUM_TOKEN: 
+2026-03-22T05:22:59.8433901Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T05:22:59.8434308Z   ZENN_GITHUB_REPO: ***
+2026-03-22T05:22:59.8434835Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T05:22:59.8435089Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T05:22:59.8435307Z ##[endgroup]
+2026-03-22T05:22:59.9423249Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2026-03-22T05:22:59.9428066Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2026-03-22T05:22:59.9433165Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+2026-03-22T05:22:59.9434960Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+2026-03-22T05:22:59.9436553Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  enable debug logging with { debug: true }
+2026-03-22T05:22:59.9437758Z 
+2026-03-22T05:22:59.9438255Z [Crosspost] 対象記事: 2026-03-20-how-to-start-claude-code
+2026-03-22T05:22:59.9439005Z [Crosspost] プラットフォーム: qiita
+2026-03-22T05:22:59.9440074Z 
+2026-03-22T05:22:59.9440326Z [qiita] 投稿中...
+2026-03-22T05:23:00.6787868Z [Qiita] トークン確認OK / ユーザー: bensolopreneur
+2026-03-22T05:23:01.5527484Z [qiita] ❌ エラー: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T05:23:01.5528400Z 
+2026-03-22T05:23:01.5528589Z === クロス発信結果 ===
+2026-03-22T05:23:01.5530810Z ❌ qiita: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
