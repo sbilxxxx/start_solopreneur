@@ -44,7 +44,6 @@ export async function postToQiita(filePath, { private: isPrivate = false } = {})
     body,
     tags: toQiitaTags(frontmatter.tags),
     private: isPrivate,
-    tweet: false,
   };
 
   const res = await fetch(`${API_BASE}/items`, {
@@ -52,6 +51,7 @@ export async function postToQiita(filePath, { private: isPrivate = false } = {})
     headers: {
       Authorization: `Bearer ${QIITA_TOKEN.trim()}`,
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify(payload),
   });
