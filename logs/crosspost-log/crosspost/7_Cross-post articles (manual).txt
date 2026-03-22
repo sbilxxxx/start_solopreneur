@@ -1,0 +1,27 @@
+﻿2026-03-22T04:56:01.4588910Z ##[group]Run node scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita,zenn
+2026-03-22T04:56:01.4589726Z [36;1mnode scripts/crosspost/crosspost.mjs "2026-03-20-how-to-start-claude-code" --platforms=qiita,zenn[0m
+2026-03-22T04:56:01.4635783Z shell: /usr/bin/bash -e {0}
+2026-03-22T04:56:01.4636055Z env:
+2026-03-22T04:56:01.4636436Z   QIITA_TOKEN: ***
+2026-03-22T04:56:01.4636662Z   MEDIUM_TOKEN: 
+2026-03-22T04:56:01.4637006Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T04:56:01.4637276Z   ZENN_GITHUB_REPO: ***
+2026-03-22T04:56:01.4637629Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T04:56:01.4637878Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T04:56:01.4638119Z ##[endgroup]
+2026-03-22T04:56:01.5405880Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+2026-03-22T04:56:01.5411634Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2026-03-22T04:56:01.5413780Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+2026-03-22T04:56:01.5416204Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2026-03-22T04:56:01.5418149Z [dotenv@17.3.1] injecting env (0) from .env.local -- tip: ⚙️  override existing env vars with { override: true }
+2026-03-22T04:56:01.5418989Z 
+2026-03-22T04:56:01.5419589Z [Crosspost] 対象記事: 2026-03-20-how-to-start-claude-code
+2026-03-22T04:56:01.5420530Z [Crosspost] プラットフォーム: qiita, zenn
+2026-03-22T04:56:01.5421010Z 
+2026-03-22T04:56:01.5421328Z [qiita] 投稿中...
+2026-03-22T04:56:02.4395445Z [qiita] ❌ エラー: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T04:56:02.4402052Z [zenn] ✅ 投稿済みのためスキップ: file://C:\Users\2240604\work\others\dev\claude_code_playground\my-website\zenn-articles\how-to-start-claude-code.md
+2026-03-22T04:56:02.4403625Z 
+2026-03-22T04:56:02.4404719Z === クロス発信結果 ===
+2026-03-22T04:56:02.4410125Z ❌ qiita: Qiita API エラー (403): {"message":"Forbidden","type":"forbidden"}
+2026-03-22T04:56:02.4411059Z ⏭️  zenn: 投稿済み

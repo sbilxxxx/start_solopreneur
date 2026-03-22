@@ -1,0 +1,72 @@
+﻿2026-03-22T04:55:47.3088155Z ##[group]Run actions/checkout@v4
+2026-03-22T04:55:47.3089010Z with:
+2026-03-22T04:55:47.3089417Z   fetch-depth: 2
+2026-03-22T04:55:47.3089897Z   repository: sbilxxxx/start_solopreneur
+2026-03-22T04:55:47.3090595Z   token: ***
+2026-03-22T04:55:47.3091003Z   ssh-strict: true
+2026-03-22T04:55:47.3091409Z   ssh-user: git
+2026-03-22T04:55:47.3091825Z   persist-credentials: true
+2026-03-22T04:55:47.3092291Z   clean: true
+2026-03-22T04:55:47.3092706Z   sparse-checkout-cone-mode: true
+2026-03-22T04:55:47.3093197Z   fetch-tags: false
+2026-03-22T04:55:47.3093608Z   show-progress: true
+2026-03-22T04:55:47.3094027Z   lfs: false
+2026-03-22T04:55:47.3094587Z   submodules: false
+2026-03-22T04:55:47.3095025Z   set-safe-directory: true
+2026-03-22T04:55:47.3095721Z ##[endgroup]
+2026-03-22T04:55:47.4175502Z Syncing repository: sbilxxxx/start_solopreneur
+2026-03-22T04:55:47.4177328Z ##[group]Getting Git version info
+2026-03-22T04:55:47.4178166Z Working directory is '/home/runner/work/start_solopreneur/start_solopreneur'
+2026-03-22T04:55:47.4179288Z [command]/usr/bin/git version
+2026-03-22T04:55:47.4242204Z git version 2.53.0
+2026-03-22T04:55:47.4269058Z ##[endgroup]
+2026-03-22T04:55:47.4283658Z Temporarily overriding HOME='/home/runner/work/_temp/10a93d56-2c86-490a-8094-d844d507bee0' before making global git config changes
+2026-03-22T04:55:47.4285311Z Adding repository directory to the temporary git global config as a safe directory
+2026-03-22T04:55:47.4297758Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/start_solopreneur/start_solopreneur
+2026-03-22T04:55:47.4339626Z Deleting the contents of '/home/runner/work/start_solopreneur/start_solopreneur'
+2026-03-22T04:55:47.4343137Z ##[group]Initializing the repository
+2026-03-22T04:55:47.4347636Z [command]/usr/bin/git init /home/runner/work/start_solopreneur/start_solopreneur
+2026-03-22T04:55:47.4453997Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-03-22T04:55:47.4455420Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-03-22T04:55:47.4456368Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-03-22T04:55:47.4457438Z hint: call:
+2026-03-22T04:55:47.4458099Z hint:
+2026-03-22T04:55:47.4459061Z hint: 	git config --global init.defaultBranch <name>
+2026-03-22T04:55:47.4459691Z hint:
+2026-03-22T04:55:47.4460258Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-03-22T04:55:47.4461160Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-03-22T04:55:47.4461924Z hint:
+2026-03-22T04:55:47.4462318Z hint: 	git branch -m <name>
+2026-03-22T04:55:47.4462783Z hint:
+2026-03-22T04:55:47.4463598Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-03-22T04:55:47.4465040Z Initialized empty Git repository in /home/runner/work/start_solopreneur/start_solopreneur/.git/
+2026-03-22T04:55:47.4469769Z [command]/usr/bin/git remote add origin https://github.com/sbilxxxx/start_solopreneur
+2026-03-22T04:55:47.4504075Z ##[endgroup]
+2026-03-22T04:55:47.4505224Z ##[group]Disabling automatic garbage collection
+2026-03-22T04:55:47.4508767Z [command]/usr/bin/git config --local gc.auto 0
+2026-03-22T04:55:47.4537640Z ##[endgroup]
+2026-03-22T04:55:47.4538343Z ##[group]Setting up auth
+2026-03-22T04:55:47.4544989Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-03-22T04:55:47.4576277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-03-22T04:55:47.4910311Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-03-22T04:55:47.4942298Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-03-22T04:55:47.5175825Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-03-22T04:55:47.5210586Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-03-22T04:55:47.5482486Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-03-22T04:55:47.5523774Z ##[endgroup]
+2026-03-22T04:55:47.5525470Z ##[group]Fetching the repository
+2026-03-22T04:55:47.5537022Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin +a8aab59b2f2ab82064effbdd3b8a9cf7ea279da9:refs/remotes/origin/main
+2026-03-22T04:55:48.0443973Z From https://github.com/sbilxxxx/start_solopreneur
+2026-03-22T04:55:48.0445781Z  * [new ref]         a8aab59b2f2ab82064effbdd3b8a9cf7ea279da9 -> origin/main
+2026-03-22T04:55:48.0477100Z ##[endgroup]
+2026-03-22T04:55:48.0478247Z ##[group]Determining the checkout info
+2026-03-22T04:55:48.0479536Z ##[endgroup]
+2026-03-22T04:55:48.0484228Z [command]/usr/bin/git sparse-checkout disable
+2026-03-22T04:55:48.0595750Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-03-22T04:55:48.0599066Z ##[group]Checking out the ref
+2026-03-22T04:55:48.0600552Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-03-22T04:55:48.0802051Z Switched to a new branch 'main'
+2026-03-22T04:55:48.0804263Z branch 'main' set up to track 'origin/main'.
+2026-03-22T04:55:48.0814703Z ##[endgroup]
+2026-03-22T04:55:48.0853189Z [command]/usr/bin/git log -1 --format=%H
+2026-03-22T04:55:48.0877248Z a8aab59b2f2ab82064effbdd3b8a9cf7ea279da9

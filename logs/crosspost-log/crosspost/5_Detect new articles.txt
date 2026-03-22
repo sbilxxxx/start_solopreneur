@@ -1,0 +1,8 @@
+﻿2026-03-22T04:56:01.4312166Z ##[group]Run # 前のコミットと比較して新規追加されたMDXファイルを検出
+2026-03-22T04:56:01.4312772Z [36;1m# 前のコミットと比較して新規追加されたMDXファイルを検出[0m
+2026-03-22T04:56:01.4313812Z [36;1mNEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'content/blog/*.mdx' | xargs -I{} basename {} .mdx | tr '\n' ' ')[0m
+2026-03-22T04:56:01.4315153Z [36;1mecho "new_files=$NEW_FILES" >> $GITHUB_OUTPUT[0m
+2026-03-22T04:56:01.4315701Z [36;1mecho "検出された新規記事: $NEW_FILES"[0m
+2026-03-22T04:56:01.4382840Z shell: /usr/bin/bash -e {0}
+2026-03-22T04:56:01.4383256Z ##[endgroup]
+2026-03-22T04:56:01.4504085Z 検出された新規記事: 
