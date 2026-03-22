@@ -70,10 +70,11 @@ X投稿は Windows Task Scheduler + `scripts/schedule-tweet.mjs` で自動実行
 
 ### 【H】クロスコンテンツ発信 + 英語対応（新規）
 
-- [ ] **クロス発信システム開発**
-  - Zenn / note / Qiita / Medium への自動投稿パイプライン
-  - 記事公開時に各プラットフォームへ展開するスクリプト
-  - 各プラットフォームのAPI/認証調査から着手
+- [x] **クロス発信システム開発**
+  - `scripts/crosspost/` にQiita/Medium/Zenn対応スクリプト実装済み
+  - `npm run crosspost <slug>` で一括投稿可能
+  - 新記事push時にGitHub Actionsで自動実行（`.github/workflows/crosspost.yml`）
+  - **次のステップ:** GitHub SecretsにQIITA_TOKEN/MEDIUM_TOKEN/ZENN_GITHUB_REPO等を登録
 - [ ] **英語対応**
   - 既存9記事の英語版生成（翻訳パイプライン拡張）
   - Medium向け英語記事の自動投稿
