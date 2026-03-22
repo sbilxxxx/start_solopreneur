@@ -1,0 +1,23 @@
+﻿2026-03-22T05:05:35.7831541Z ##[group]Run node scripts/crosspost/crosspost.mjs "--verify" --platforms=qiita
+2026-03-22T05:05:35.7832151Z [36;1mnode scripts/crosspost/crosspost.mjs "--verify" --platforms=qiita[0m
+2026-03-22T05:05:35.7881825Z shell: /usr/bin/bash -e {0}
+2026-03-22T05:05:35.7882118Z env:
+2026-03-22T05:05:35.7882508Z   QIITA_TOKEN: ***
+2026-03-22T05:05:35.7882730Z   MEDIUM_TOKEN: 
+2026-03-22T05:05:35.7883095Z   ZENN_GITHUB_TOKEN: ***
+2026-03-22T05:05:35.7883410Z   ZENN_GITHUB_REPO: ***
+2026-03-22T05:05:35.7883759Z   TELEGRAM_BOT_TOKEN: ***
+2026-03-22T05:05:35.7884016Z   TELEGRAM_CHAT_ID: ***
+2026-03-22T05:05:35.7884242Z ##[endgroup]
+2026-03-22T05:05:35.8356089Z file:///home/runner/work/start_solopreneur/start_solopreneur/scripts/crosspost/qiita.mjs:88
+2026-03-22T05:05:35.8357385Z     return;
+2026-03-22T05:05:35.8357832Z     ^^^^^^
+2026-03-22T05:05:35.8358034Z 
+2026-03-22T05:05:35.8358271Z SyntaxError: Illegal return statement
+2026-03-22T05:05:35.8359200Z     at compileSourceTextModule (node:internal/modules/esm/utils:346:16)
+2026-03-22T05:05:35.8360106Z     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:146:18)
+2026-03-22T05:05:35.8360849Z     at #translate (node:internal/modules/esm/loader:497:12)
+2026-03-22T05:05:35.8361568Z     at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:544:27)
+2026-03-22T05:05:35.8362033Z 
+2026-03-22T05:05:35.8362156Z Node.js v20.20.1
+2026-03-22T05:05:35.8396961Z ##[error]Process completed with exit code 1.
