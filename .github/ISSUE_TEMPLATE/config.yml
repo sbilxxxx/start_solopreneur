@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📋 タスク一覧
+    url: https://github.com/sbilxxxx/start_solopreneur/blob/main/tasks/current.md
+    about: 現在のスプリントとバックログを確認

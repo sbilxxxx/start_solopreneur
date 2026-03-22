@@ -1,0 +1,41 @@
+name: 🤖 エージェント指示
+description: Claude Code エージェントへの開発指示
+title: "[instruction] "
+labels: ["instruction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        指示を入力してください。送信後、**約1分以内**にGitHub Actionsが自動実行します。
+        結果はこのIssueのコメントに投稿されます。
+
+  - type: textarea
+    id: instruction
+    attributes:
+      label: 指示内容
+      description: Claude Codeに実行させたい内容を具体的に書いてください
+      placeholder: |
+        例:
+        - ChatWidgetのボタンの色を青に変えて
+        - content/blog/以下の記事一覧をターミナルに表示して
+        - tasks/current.mdの未完了タスクをまとめて
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度
+      options:
+        - 通常（次回実行時）
+        - 高（urgentラベルも追加してください）
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 確認
+      options:
+        - label: 本番デプロイ・課金操作は含まない
+          required: true

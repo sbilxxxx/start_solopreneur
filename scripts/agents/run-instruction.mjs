@@ -146,9 +146,34 @@ ${instruction}
       }
     } catch { /* git情報取得失敗は無視 */ }
 
-    // 成功
-    const comment = `✅ 実行完了\n\n${resultText}`;
+    // 成功 — GitHub Markdown形式でコメント
+    const actionsRunUrl = process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
+      ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+      : null;
+
+    const comment = [
+      "## ✅ 実行完了",
+      "",
+      resultText || "（結果テキストなし）",
+      "",
+      "---",
+      `**複雑度:** ${settings.label} | **予算:** $${settings.maxBudgetUsd}`,
+      actionsRunUrl ? `**Actionsログ:** [実行詳細](${actionsRunUrl})` : "",
+    ].filter(Boolean).join("\n");
+
     await commentAndClose(number, comment);
+
+    // GitHub Actions Step Summary に書き出し
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      const { appendFileSync } = await import("fs");
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+        `## ✅ Issue #${number} 実行完了`,
+        `**指示:** ${title}`,
+        "",
+        resultText || "（結果テキストなし）",
+        "",
+      ].join("\n"));
+    }
     const telegramBody = resultText
       ? `${resultText.slice(0, 500)}${gitSummary}`
       : `（詳細ログはGitHub Issue #${number}を確認）${gitSummary}`;
@@ -161,7 +186,19 @@ ${instruction}
   } catch (err) {
     // 失敗
     const errMsg = err instanceof Error ? err.message : String(err);
-    await commentAndClose(number, `❌ 実行エラー\n\n${errMsg}`);
+    const actionsRunUrl = process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
+      ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+      : null;
+    const errComment = [
+      "## ❌ 実行エラー",
+      "",
+      `\`\`\``,
+      errMsg,
+      `\`\`\``,
+      "",
+      actionsRunUrl ? `**詳細ログ:** [Actionsを確認](${actionsRunUrl})` : "",
+    ].filter(Boolean).join("\n");
+    await commentAndClose(number, errComment);
     await sendTelegram(
       `❌ <b>指示エラー</b>\nIssue #${number}: ${title}\n${errMsg}`,
       "HTML"
