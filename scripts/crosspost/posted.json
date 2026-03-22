@@ -1,4 +1,11 @@
 {
   "_comment": "各記事の投稿済みURLを管理。手動編集不要 — crosspost.mjsが自動更新。",
-  "articles": {}
+  "articles": {
+    "2026-03-20-how-to-start-claude-code": {
+      "zenn": {
+        "url": "file://C:\\Users\\2240604\\work\\others\\dev\\claude_code_playground\\my-website\\zenn-articles\\how-to-start-claude-code.md",
+        "postedAt": "2026-03-22T04:54:11.911Z"
+      }
+    }
+  }
 }
