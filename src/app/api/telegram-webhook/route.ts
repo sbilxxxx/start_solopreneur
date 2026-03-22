@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true });
 }
 
+function buildProgressBar(ratio: number, length: number): string {
+  const filled = Math.round(ratio * length);
+  return "█".repeat(filled) + "░".repeat(length - filled);
+}
+
 // ─── テキストコマンドルーティング ──────────────────────────────────────────
 
 async function handleTextMessage(message: {
