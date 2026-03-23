@@ -38,7 +38,7 @@ Phase 6 🔲  収益化 + 資金管理
 
 Claude Code では完結しない操作。
 
-- [ ] X アイコン・ヘッダー画像を設定（Xアプリ → プロフィール編集）
+- [x] X アイコン・ヘッダー画像を設定（Xアプリ → プロフィール編集）
 - [ ] URL制限が解除されたら固定ツイートをURL付きで再投稿
 - [ ] Zenn に engineering 記事をクロスポスト（1本目: `how-to-start-claude-code`）
 - [ ] ANTHROPIC_API_KEY を .env.local に設定（未設定なら）
