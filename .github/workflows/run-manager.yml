@@ -1,9 +1,10 @@
 name: Run Manager Agent
 
 on:
-  schedule:
-    # 平日のみ 9:00 JST = 0:00 UTC（月〜金）
-    - cron: '0 0 * * 1-5'
+  # schedule: 一時停止中
+  # schedule:
+  #   # 平日のみ 9:00 JST = 0:00 UTC（月〜金）
+  #   - cron: '0 0 * * 1-5'
   workflow_dispatch:
     # GitHub UI または API から手動実行も可能
 

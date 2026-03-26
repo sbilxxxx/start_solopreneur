@@ -1,13 +1,14 @@
 name: Tweet Schedule
 
 on:
-  schedule:
-    # 月曜 8:00 JST = 日曜 23:00 UTC
-    - cron: '0 23 * * 0'
-    # 水曜 12:00 JST = 水曜 03:00 UTC
-    - cron: '0 3 * * 3'
-    # 金曜 19:00 JST = 金曜 10:00 UTC
-    - cron: '0 10 * * 5'
+  # schedule: 一時停止中
+  # schedule:
+  #   # 月曜 8:00 JST = 日曜 23:00 UTC
+  #   - cron: '0 23 * * 0'
+  #   # 水曜 12:00 JST = 水曜 03:00 UTC
+  #   - cron: '0 3 * * 3'
+  #   # 金曜 19:00 JST = 金曜 10:00 UTC
+  #   - cron: '0 10 * * 5'
   workflow_dispatch:
     inputs:
       date:
