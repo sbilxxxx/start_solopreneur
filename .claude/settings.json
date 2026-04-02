@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:alirezarezvani.medium.com)",
-      "WebFetch(domain:medium.com)"
+      "WebFetch(domain:medium.com)",
+      "mcp__github__get_file_contents",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Read(//tmp/superpowers/**)",
+      "Bash(cp -r /tmp/superpowers/skills/* ~/.claude/commands/)",
+      "Bash(cp /tmp/superpowers/commands/*.md ~/.claude/commands/)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }
